@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}पञ्चाङ्ग{% else %}Panchanga{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}पञ्चाङ्ग — पाँच अङ्ग{% else %}Panchanga — The Five Limbs{% endif %}</h1>
+
+<p>
+  {% if locale == 'ne' %}
+    <b>पञ्चाङ्ग</b> भनेको ‘पाँच अङ्ग’। एउटा क्षणको ‘गुण’ कस्तो छ — त्यो
+    पाँच कुराबाट बुझिन्छ: तिथि, नक्षत्र, योग, करण, र वार। मुहूर्त (शुभ बेला
+    छान्ने), नामकरण, विवाह, र पूजामा यी पाँचै कुरा हेरिन्छन्।
+  {% else %}
+    <b>Panchanga</b> means "five limbs". The Vedic way of describing the
+    quality of any moment uses five components: Tithi, Nakshatra, Yoga,
+    Karana, and Vara. They are used in muhurta (auspicious timing),
+    naming ceremonies, marriages, and rituals.
+  {% endif %}
+</p>
+
+<h2>1. {% if locale=='ne' %}तिथि (Lunar day){% else %}Tithi (Lunar day){% endif %}</h2>
+{% if locale == 'ne' %}
+<p>तिथि भनेको चन्द्र र सूर्यबीचको कोणीय दूरीबाट निस्किने ‘चान्द्र दिन’।
+हरेक तिथि १२° बराबर हुन्छ। एक चान्द्र महिनामा ३० तिथि।</p>
+<ul>
+  <li><b>शुक्ल पक्ष</b> (तिथि १–१५): चन्द्रमा बढ्दै जाने अवधि — सकारात्मक कामका लागि शुभ।</li>
+  <li><b>कृष्ण पक्ष</b> (तिथि १६–३०): चन्द्रमा घट्दै जाने — आन्तरिक काम, साधना।</li>
+</ul>
+<p><b>तिथिका नाम:</b> प्रतिपदा, द्वितीया, तृतीया, चतुर्थी, पञ्चमी, षष्ठी,
+सप्तमी, अष्टमी, नवमी, दशमी, एकादशी, द्वादशी, त्रयोदशी, चतुर्दशी, पूर्णिमा/अमावस्या।</p>
+{% else %}
+<p>The Tithi is the "lunar day", computed from the angular distance between
+the Moon and Sun. Each tithi covers 12° of separation. There are 30 tithis
+in a lunar month.</p>
+<ul>
+  <li><b>Shukla Paksha</b> (tithi 1–15): waxing Moon — auspicious for outward action.</li>
+  <li><b>Krishna Paksha</b> (tithi 16–30): waning Moon — inner work, sadhana.</li>
+</ul>
+<p><b>Tithi names:</b> Pratipada, Dwitiya, Tritiya, Chaturthi, Panchami,
+Shashthi, Saptami, Ashtami, Navami, Dashami, Ekadashi, Dwadashi, Trayodashi,
+Chaturdashi, Purnima/Amavasya.</p>
+{% endif %}
+
+<h2>2. {% if locale=='ne' %}नक्षत्र (Lunar mansion){% else %}Nakshatra (Lunar mansion){% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    जुन नक्षत्र मा त्यस क्षणमा चन्द्र छ। २७ नक्षत्र छन्, हरेक १३°२०′ चौडाइको।
+    हरेकको आफ्नो देवता र विषय हुन्छ।
+    <a href="{{ url_for('learn_topic', topic='nakshatras') }}">→ सबै २७ नक्षत्रको तालिका</a>
+  {% else %}
+    The nakshatra in which the Moon currently sits. There are 27 nakshatras,
+    each 13°20′ wide. Each has its own deity and theme.
+    <a href="{{ url_for('learn_topic', topic='nakshatras') }}">→ Full table of 27 nakshatras</a>
+  {% endif %}
+</p>
+
+<h2>3. {% if locale=='ne' %}योग (Sky-quality){% else %}Yoga (Sky-quality){% endif %}</h2>
+{% if locale == 'ne' %}
+<p>योग = (सूर्यको देशान्तर + चन्द्रको देशान्तर), २७ नामहरूमा बाँडिएको। यसले एउटा क्षणको
+‘समग्र शुभ/अशुभ’ भाव बताउँछ। ‘विष्टि’, ‘व्यतीपात’, ‘वैधृति’ जस्ता योगहरू
+सामान्यतया अशुभ; ‘सिद्धि’, ‘शुभ’, ‘ब्रह्म’ जस्ता शुभ।</p>
+{% else %}
+<p>Yoga is calculated as (Sun longitude + Moon longitude), divided into 27
+named yogas. It describes the overall favorability of the moment. Some
+(like Vishti, Vyatipata, Vaidhriti) are considered inauspicious; others
+(Siddhi, Shubha, Brahma) auspicious.</p>
+{% endif %}
+
+<h2>4. {% if locale=='ne' %}करण (Half-tithi){% else %}Karana (Half-tithi){% endif %}</h2>
+{% if locale == 'ne' %}
+<p>करण = आधा तिथि (६° का दूरीहरू)। महिनामा ६० करण। यिनको ११ नाम छन् —
+सात (बव, बालव, कौलव, तैतिल, गर, वणिज, विष्टि) बारम्बार दोहोरिने, र चार
+(शकुनि, चतुष्पाद, नाग, किंस्तुघ्न) तय। मुहूर्तमा प्रयोग।</p>
+{% else %}
+<p>A karana is half a tithi (6° each). There are 60 karanas per lunar month,
+mapped to 11 names — seven recurring (Bava, Balava, Kaulava, Taitila, Garaja,
+Vanija, Vishti) and four fixed (Shakuni, Chatushpada, Naga, Kimstughna).
+Used in fine-grained muhurta timing.</p>
+{% endif %}
+
+<h2>5. {% if locale=='ne' %}वार (Weekday){% else %}Vara (Weekday){% endif %}</h2>
+{% if locale == 'ne' %}
+<table class="ref-table">
+  <thead><tr><th>दिन</th><th>स्वामी ग्रह</th><th>ऊर्जा</th></tr></thead>
+  <tbody>
+    <tr><td>आइतबार</td><td>सूर्य</td><td>नेतृत्व, अधिकार</td></tr>
+    <tr><td>सोमबार</td><td>चन्द्र</td><td>मन, सम्बन्ध</td></tr>
+    <tr><td>मङ्गलबार</td><td>मङ्गल</td><td>साहस, प्रतिद्वन्द्विता</td></tr>
+    <tr><td>बुधबार</td><td>बुध</td><td>अध्ययन, सञ्चार</td></tr>
+    <tr><td>बिहीबार</td><td>बृहस्पति</td><td>ज्ञान, धर्म</td></tr>
+    <tr><td>शुक्रबार</td><td>शुक्र</td><td>प्रेम, कला</td></tr>
+    <tr><td>शनिबार</td><td>शनि</td><td>अनुशासन, श्रम</td></tr>
+  </tbody>
+</table>
+{% else %}
+<table class="ref-table">
+  <thead><tr><th>Day</th><th>Ruling planet</th><th>Energy</th></tr></thead>
+  <tbody>
+    <tr><td>Sunday</td><td>Sun</td><td>Leadership, authority</td></tr>
+    <tr><td>Monday</td><td>Moon</td><td>Mind, relationships</td></tr>
+    <tr><td>Tuesday</td><td>Mars</td><td>Courage, rivalry</td></tr>
+    <tr><td>Wednesday</td><td>Mercury</td><td>Learning, communication</td></tr>
+    <tr><td>Thursday</td><td>Jupiter</td><td>Wisdom, dharma</td></tr>
+    <tr><td>Friday</td><td>Venus</td><td>Love, art</td></tr>
+    <tr><td>Saturday</td><td>Saturn</td><td>Discipline, work</td></tr>
+  </tbody>
+</table>
+{% endif %}
+
+<p class="muted">
+  {% if locale == 'ne' %}
+    <i>नोट: हाम्रो साइटमा कुनै पनि कुण्डली निकाल्दा यी पाँचै अङ्ग ‘दृक्’
+    र ‘सूर्य सिद्धान्त’ दुवै तरिकाले गणना गरिन्छ।</i>
+  {% else %}
+    <i>Note: When you compute a kundali on this site, all five limbs are
+    calculated using both the Drik and Surya Siddhanta methods.</i>
+  {% endif %}
+</p>
+{% endblock %}

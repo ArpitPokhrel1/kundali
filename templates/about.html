@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}बारेमा{% else %}About{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<h1>{% if locale=='ne' %}यो साइटको बारेमा{% else %}About this site{% endif %}</h1>
+
+<section class="card">
+  <h2>{% if locale=='ne' %}उद्देश्य{% else %}Purpose{% endif %}</h2>
+  <p>
+    {% if locale == 'ne' %}
+      <b>{{ SITE_DOMAIN }}</b> एक निःशुल्क, खुला-स्रोत वैदिक ज्योतिष उपकरण
+      हो — नेपाली र अङ्ग्रेजी दुवै भाषामा। उद्देश्य: सटीक गणनासँगै
+      <i>शिक्षा-केन्द्रित</i> व्याख्या दिनु, ताकि कुनै पनि जिज्ञासुले आफ्नो
+      कुण्डली बुझ्न र क्रमशः ज्योतिष सिक्न पाओस्।
+    {% else %}
+      <b>{{ SITE_DOMAIN }}</b> is a free, open-source Vedic astrology tool —
+      bilingual (Nepali + English). The aim is to provide accurate
+      computation alongside <i>education-first</i> explanations, so any
+      curious person can both understand their kundali and gradually learn
+      Jyotish.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h2>{% if locale=='ne' %}गणनाको आधार{% else %}Computation method{% endif %}</h2>
+  <ul>
+    <li>
+      <b>{% if locale=='ne' %}दृक् सिद्धान्त{% else %}Drik Siddhanta{% endif %}</b>:
+      {% if locale=='ne' %}
+        Swiss Ephemeris (DE431 आधारित) ले उपआर्कसेकेन्ड शुद्धताको
+        आधुनिक खगोलशास्त्रीय गणना। निरयन रूपान्तरण <b>लाहिरी अयनांश</b>
+        (नेपाल/भारत सरकारी मानक) मार्फत।
+      {% else %}
+        Sub-arcsecond modern astronomical positions via Swiss Ephemeris
+        (DE431-backed). Sidereal conversion using the <b>Lahiri ayanamsa</b>
+        (the Indian/Nepali government standard).
+      {% endif %}
+    </li>
+    <li>
+      <b>{% if locale=='ne' %}सूर्य सिद्धान्त{% else %}Surya Siddhanta{% endif %}</b>:
+      {% if locale=='ne' %}
+        शास्त्रको मूल पाठबाट सिधा कार्यान्वयन — महायुगमा प्रति-ग्रह क्रान्तिहरू,
+        अहर्गण, मन्द र शीघ्र समीकरणहरू।
+      {% else %}
+        Implemented straight from the original text — revolutions per
+        Mahayuga, ahargana, and the manda + sighra epicycle equations.
+      {% endif %}
+    </li>
+    <li>
+      <b>{% if locale=='ne' %}विक्रम संवत्{% else %}Bikram Sambat{% endif %}</b>:
+      {% if locale=='ne' %}
+        प्रामाणिक नेपाली पञ्चाङ्ग डेटा (वि.सं. २०००–२०९९ कभर हुने)।
+      {% else %}
+        Verified Nepali panchanga calendar data (covers BS 2000–2099 ≈
+        AD 1943–2042).
+      {% endif %}
+    </li>
+    <li>
+      <b>{% if locale=='ne' %}स्थान खोज{% else %}Place search{% endif %}</b>:
+      OpenStreetMap Nominatim.
+      <b>{% if locale=='ne' %}समय क्षेत्र{% else %}Timezone{% endif %}</b>:
+      timezonefinder + IANA zoneinfo (DST-सहित)।
+    </li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>{% if locale=='ne' %}सीमाहरू{% else %}Limitations{% endif %}</h2>
+  <ul>
+    <li>
+      {% if locale=='ne' %}
+        जन्म समय गलत भएमा लग्न ४ मिनेटको त्रुटिले १° सर्न सक्छ —
+        सकेसम्म सटीक समय राख्नुहोस्।
+      {% else %}
+        A 4-minute error in birth time can shift the Lagna by 1° — be as
+        precise as possible.
+      {% endif %}
+    </li>
+    <li>
+      {% if locale=='ne' %}
+        वि.सं. १९४३ अघिको र २०४२ इस्वी पछिको मितिमा BS रूपान्तरण उपलब्ध छैन।
+      {% else %}
+        BS conversion unavailable before 1943 AD or after 2042 AD.
+      {% endif %}
+    </li>
+    <li>
+      {% if locale=='ne' %}
+        अहिले D1 (मूल कुण्डली) मात्र — D9 (नवांश), अन्तरदशा र योग पहिचान
+        भविष्यमा थपिने।
+      {% else %}
+        Currently D1 (birth chart) only — D9 navamsha, antardasha sub-periods,
+        and yoga detection are on the roadmap.
+      {% endif %}
+    </li>
+    <li>
+      {% if locale=='ne' %}
+        ज्योतिष व्याख्या <b>शास्त्रीय प्रवृत्ति</b> मात्र हो — भविष्यवाणी होइन।
+      {% else %}
+        Astrological readings describe <b>classical tendencies</b> — they are
+        not predictions.
+      {% endif %}
+    </li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>{% if locale=='ne' %}निर्माता{% else %}Made by{% endif %}</h2>
+  <p>
+    {% if locale=='ne' %}यो साइट{% else %}This site is built by{% endif %}
+    <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener"><b>{{ BACKLINK_TEXT }}</b></a>.
+    {% if locale=='ne' %}
+      सुझाव, बग रिपोर्ट, वा सहयोगका लागि उक्त साइटमा सम्पर्क गर्नुहोस्।
+    {% else %}
+      For suggestions, bug reports, or collaboration please get in touch
+      via that site.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h2>{% if locale=='ne' %}गोपनीयता{% else %}Privacy{% endif %}</h2>
+  <p>
+    {% if locale=='ne' %}
+      हामी कुनै पनि कुण्डली डेटा सर्भरमा भण्डारण गर्दैनौँ — हरेक गणना
+      अनुरोधसँगै समाप्त हुन्छ। केवल भाषा र थिम चयन कुकीमा राखिन्छ।
+    {% else %}
+      We do not store any kundali data on the server — every computation
+      is request-scoped and discarded after the response. Only your
+      language and theme preferences are saved as cookies.
+    {% endif %}
+  </p>
+</section>
+
+<p class="center">
+  <a href="{{ url_for('home') }}" class="btn">
+    {% if locale == 'ne' %}कुण्डली बनाउनुहोस् →{% else %}Compute a Kundali →{% endif %}
+  </a>
+</p>
+{% endblock %}

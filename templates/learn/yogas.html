@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}मुख्य योगहरू{% else %}Major Yogas{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}मुख्य योगहरू (Yogas){% else %}Major Yogas (Combinations){% endif %}</h1>
+
+<p>
+  {% if locale == 'ne' %}
+    <b>योग</b> भनेको ग्रहहरूको विशेष संयोजन — जसले जन्म कुण्डलीमा कुनै
+    खास फल दिने मानिन्छ। शास्त्रमा हजारौँ योग छन्; तल सबभन्दा बढी
+    प्रयोग हुने केहीको परिचय छ।
+  {% else %}
+    A <b>yoga</b> is a specific combination of planets that classical
+    texts say produces a particular result. Hundreds of yogas exist; below
+    are the most-cited ones you will encounter again and again.
+  {% endif %}
+</p>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}गजकेसरी योग{% else %}Gajakesari Yoga{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      जब चन्द्र र बृहस्पति केन्द्र भाव (१, ४, ७, १०) मा एक–अर्काबाट हुन्छन् —
+      यो योग बन्छ। फल: ज्ञान, समाजमा प्रतिष्ठा, राम्रो वाणी, परोपकार।
+    {% else %}
+      Formed when Moon and Jupiter are in mutual kendras (1, 4, 7, 10 from
+      each other). Effect: wisdom, social respect, eloquent speech, generosity.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}राज योग{% else %}Raja Yoga{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      केन्द्र भाव (१/४/७/१०) को स्वामी र त्रिकोण (१/५/९) को स्वामी मिलेर
+      सम्बन्ध बनाउँदा (युति, परस्पर दृष्टि, वा अदलबदल) — यो योग बन्छ।
+      फल: अधिकार, उन्नति, समाजमा प्रभाव।
+    {% else %}
+      Formed when the lord of a kendra (1/4/7/10) and the lord of a trikona
+      (1/5/9) connect — by conjunction, mutual aspect, or sign exchange.
+      Effect: authority, advancement, social influence.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}धन योग{% else %}Dhana Yoga{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      धन-स्थान (२) र लाभ-स्थान (११) का स्वामी मिलेमा, वा उनीहरूको ५/९ स्वामीसँग
+      सम्बन्ध हुँदा — सम्पत्ति र आर्थिक उन्नति दिने योग।
+    {% else %}
+      The lords of the 2nd (wealth) and 11th (gains) houses linking up — or
+      either of them connecting with the 5th/9th lords — yields wealth-bringing
+      yogas.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}विपरीत राज योग{% else %}Viparita Raja Yoga{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      ‘विपरीत’ अर्थात् ‘उल्टो’। दुस्थान भाव (६, ८, १२) का स्वामीहरू
+      मिल्दा वा एकले अर्कोलाई दूषित नगरी हेर्दा — यो योग बन्छ।
+      फल: कठिनाइबाट उठ्ने सामर्थ्य, अप्रत्याशित सफलता।
+    {% else %}
+      "Reversed" Raja yoga. When the lords of dusthanas (6, 8, 12) connect
+      with each other (without afflicting other key houses) — they cancel
+      each other's negativity. Effect: rising from adversity, unexpected
+      success.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}पञ्च-महापुरुष योगहरू{% else %}Pancha-Mahapurusha Yogas{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      पाँच ग्रह (मङ्गल, बुध, गुरु, शुक्र, शनि) मध्ये कुनै केन्द्र भावमा
+      उच्च वा स्व-राशिमा भएमा — पाँच महापुरुष योगमध्ये एक बन्छ:
+    {% else %}
+      When one of five planets (Mars, Mercury, Jupiter, Venus, Saturn) is
+      in a kendra and in its own sign or exalted, one of these forms:
+    {% endif %}
+  </p>
+  <ul>
+    <li><b>रुचक</b> / Ruchaka — {% if locale=='ne' %}मङ्गलबाट{% else %}from Mars{% endif %}: {% if locale=='ne' %}साहसी, बलवान्, नेता।{% else %}courageous, powerful, leader.{% endif %}</li>
+    <li><b>भद्र</b> / Bhadra — {% if locale=='ne' %}बुधबाट{% else %}from Mercury{% endif %}: {% if locale=='ne' %}बुद्धिमान्, धनी, चातुर्य।{% else %}intelligent, wealthy, eloquent.{% endif %}</li>
+    <li><b>हंस</b> / Hamsa — {% if locale=='ne' %}गुरुबाट{% else %}from Jupiter{% endif %}: {% if locale=='ne' %}विद्वान्, धार्मिक, सम्मानित।{% else %}learned, religious, respected.{% endif %}</li>
+    <li><b>मालव्य</b> / Malavya — {% if locale=='ne' %}शुक्रबाट{% else %}from Venus{% endif %}: {% if locale=='ne' %}सुन्दर, कलाप्रेमी, समृद्ध।{% else %}beautiful, artistic, prosperous.{% endif %}</li>
+    <li><b>शश</b> / Shasha — {% if locale=='ne' %}शनिबाट{% else %}from Saturn{% endif %}: {% if locale=='ne' %}अधिकारी, श्रमी, दीर्घजीवी।{% else %}authoritative, hard-working, long-lived.{% endif %}</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}चन्द्र-मङ्गल योग{% else %}Chandra-Mangala Yoga{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      चन्द्र र मङ्गल युतिमा (एउटै भावमा) — व्यापारिक चातुर्य, सम्पत्ति,
+      र निर्णय-क्षमता।
+    {% else %}
+      Moon conjunct Mars in the same house — strong business sense, wealth,
+      decisive action.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}बुधादित्य योग{% else %}Buddha-Aditya Yoga{% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      सूर्य र बुध युतिमा (एउटै भावमा)। फल: तीव्र बुद्धि, राम्रो वाणी,
+      विद्वत्ता। तर बुध सूर्यभन्दा १४° भित्र भयो भने अस्त (combust) हुन्छ —
+      फल कमजोर हुन सक्छ।
+    {% else %}
+      Sun conjunct Mercury — sharp intellect, eloquence, scholarship. But if
+      Mercury is within 14° of Sun, it becomes <i>combust</i> and the effect weakens.
+    {% endif %}
+  </p>
+</section>
+
+<section class="card">
+  <h3>{% if locale=='ne' %}केमद्रुम योग{% else %}Kemadruma Yoga (caution){% endif %}</h3>
+  <p>
+    {% if locale == 'ne' %}
+      चन्द्रको दुवै तर्फका भावमा (२ र १२) कुनै ग्रह नहुँदा बन्ने योग।
+      परम्परा अनुसार आर्थिक र मानसिक चुनौती दिने मानिन्छ — तर अरू शुभ
+      योगले रद्द गर्न सक्छ।
+    {% else %}
+      Formed when no planets sit in the houses on either side of the Moon
+      (2nd and 12th from Moon). Traditionally said to bring financial and
+      emotional challenges — but other auspicious yogas can cancel it.
+    {% endif %}
+  </p>
+</section>
+
+<p class="muted">
+  {% if locale == 'ne' %}
+    <i>नोट: योगहरू एक–अर्कोलाई बल/कमजोर पार्न सक्छन्। एक्लै कुनै योग
+    हेरेर निष्कर्ष निकाल्नु हुँदैन — पूरा कुण्डली समग्रमा हेर्नुपर्छ।</i>
+  {% else %}
+    <i>Note: Yogas can strengthen or cancel each other. A reading should
+    never rely on one yoga in isolation — always weigh the whole chart.</i>
+  {% endif %}
+</p>
+{% endblock %}

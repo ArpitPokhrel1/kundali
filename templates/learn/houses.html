@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}१२ भाव{% else %}12 Bhavas (Houses){% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}१२ भाव (Bhavas){% else %}The 12 Bhavas (Houses){% endif %}</h1>
+<p>
+  {% if locale == 'ne' %}
+    हरेक भावले जीवनको एउटा क्षेत्र बुझाउँछ। कुण्डलीमा भाव १ सधैँ लग्न; अरू
+    भाव वामावर्त (counterclockwise) क्रममा। एउटा भाव पढ्न:
+    (१) त्यसमा रहेको राशि, (२) त्यहाँ बसेका ग्रह, (३) त्यस राशिको स्वामी
+    अर्को कुन भावमा छ — यी तीन कुरा हेरिन्छ।
+  {% else %}
+    Each bhava represents an area of life. House 1 is always the Lagna; the
+    rest follow counterclockwise. To read a house: look at (1) the sign in
+    it, (2) any planets sitting there, (3) where the LORD of that sign is
+    placed elsewhere in the chart.
+  {% endif %}
+</p>
+
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>{% if locale=='ne' %}भाव{% else %}House{% endif %}</th>
+      <th>{% if locale=='ne' %}नाम{% else %}Name{% endif %}</th>
+      <th>{% if locale=='ne' %}विषयहरू{% else %}Areas of life{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for n in range(1, 13) %}
+    <tr>
+      <td><b>{{ n }}</b></td>
+      <td class="name">{{ house_meanings[n][0] }}</td>
+      <td>{{ house_meanings[n][1] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>{% if locale=='ne' %}भाव वर्गीकरण{% else %}House categories{% endif %}</h2>
+{% if locale == 'ne' %}
+<dl class="glossary">
+  <dt>केन्द्र (Kendras) — १, ४, ७, १०</dt>
+  <dd>सबभन्दा बलिया भाव। यहाँ ग्रह बस्दा त्यो ग्रहको प्रभाव दृढ हुन्छ।</dd>
+  <dt>त्रिकोण (Trikonas) — १, ५, ९</dt>
+  <dd>सबभन्दा शुभ भाव। ‘धर्म त्रिकोण’ — आत्मा, सिर्जना, भाग्य।</dd>
+  <dt>दुस्थान (Dusthanas) — ६, ८, १२</dt>
+  <dd>कठिन भाव — रोग, हानि, बाधा। तर ८ भावले रूपान्तरण र १२ भावले मोक्ष पनि दिन्छ।</dd>
+  <dt>उपचय (Upachayas) — ३, ६, १०, ११</dt>
+  <dd>‘बढ्दो’ भाव — समयसँगै फल बढ्दै जाने।</dd>
+  <dt>मारक (Marakas) — २, ७</dt>
+  <dd>शास्त्रमा ‘मारक’ भनिएका — स्वास्थ्य, जीवन-शक्ति सम्बन्धी।</dd>
+</dl>
+{% else %}
+<dl class="glossary">
+  <dt>Kendras (Angles) — 1, 4, 7, 10</dt>
+  <dd>The strongest houses. A planet placed here exerts powerful influence.</dd>
+  <dt>Trikonas (Trines) — 1, 5, 9</dt>
+  <dd>The most auspicious houses. The "dharma trikonas" — soul, creativity, fortune.</dd>
+  <dt>Dusthanas (Difficult houses) — 6, 8, 12</dt>
+  <dd>Challenging — disease, loss, obstacles. But 8 also brings transformation, and 12 enables liberation.</dd>
+  <dt>Upachayas (Growing houses) — 3, 6, 10, 11</dt>
+  <dd>Houses that improve with time — effort here pays compounding returns.</dd>
+  <dt>Marakas (Mortality houses) — 2, 7</dt>
+  <dd>Classical texts call these "killing" houses — they relate to health and life-force in long-life calculations.</dd>
+</dl>
+{% endif %}
+
+<h2>{% if locale=='ne' %}अर्थ–वर्गहरू (Bhava trine groups){% else %}Meaning groups (Bhava trines){% endif %}</h2>
+{% if locale == 'ne' %}
+<ul>
+  <li><b>धर्म</b> — १, ५, ९ (आत्मा, उद्देश्य, भाग्य)</li>
+  <li><b>अर्थ</b> — २, ६, १० (धन, श्रम, करियर)</li>
+  <li><b>काम</b> — ३, ७, ११ (इच्छा, साझेदारी, लाभ)</li>
+  <li><b>मोक्ष</b> — ४, ८, १२ (शान्ति, रूपान्तरण, मुक्ति)</li>
+</ul>
+{% else %}
+<ul>
+  <li><b>Dharma</b> — 1, 5, 9 (soul, purpose, fortune)</li>
+  <li><b>Artha</b> — 2, 6, 10 (wealth, work, career)</li>
+  <li><b>Kama</b> — 3, 7, 11 (desires, partnership, gains)</li>
+  <li><b>Moksha</b> — 4, 8, 12 (peace, transformation, liberation)</li>
+</ul>
+{% endif %}
+
+<p>
+  <a href="{{ url_for('learn_topic', topic='aspects') }}">→ {% if locale=='ne' %}ग्रहले भावलाई कसरी हेर्छन् (दृष्टि){% else %}How planets view other houses (drishti){% endif %}</a>
+</p>
+{% endblock %}

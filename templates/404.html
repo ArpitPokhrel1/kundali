@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Not found — Astro-Nepali{% endblock %}
+{% block content %}
+<div class="card center">
+  <h1>404</h1>
+  <p>{% if locale=='ne' %}यस्तो पृष्ठ भेटिएन।{% else %}That page doesn't exist.{% endif %}</p>
+  <p>
+    <a href="{{ url_for('home') }}" class="btn">{% if locale=='ne' %}गृह पृष्ठ{% else %}Home{% endif %}</a>
+    <a href="{{ url_for('learn_index') }}" class="btn secondary">{% if locale=='ne' %}सिक्नुहोस्{% else %}Learn{% endif %}</a>
+  </p>
+</div>
+{% endblock %}

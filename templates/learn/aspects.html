@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}दृष्टि{% else %}Aspects (Drishti){% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}दृष्टि (Drishti) — ग्रहले अरूलाई कसरी हेर्छ{% else %}Drishti — How Planets See Other Houses{% endif %}</h1>
+
+<p>
+  {% if locale == 'ne' %}
+    एउटा ग्रह जुन भावमा छ, त्यहाँ मात्र होइन — टाढाको अर्को भावलाई पनि
+    ‘हेर्ने’ शक्ति राख्छ। यसलाई <b>दृष्टि</b> भनिन्छ। दृष्टिले त्यस
+    दूरीको भावलाई असर गर्छ। राम्रो ग्रहको दृष्टि = फाइदा; पीडक ग्रहको
+    दृष्टि = बाधा।
+  {% else %}
+    A planet doesn't only affect the house it sits in — it also "looks at"
+    other specific houses across the chart. This is called <b>drishti</b>
+    (aspect). A benefic's drishti supports the targeted house; a malefic's
+    drishti afflicts it.
+  {% endif %}
+</p>
+
+<h2>{% if locale=='ne' %}सामान्य नियम{% else %}The general rule{% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    प्रत्येक ग्रहले आफ्नो भावबाट <b>सातौँ भावलाई</b> सामान्य रूपमा हेर्छ
+    (पूर्ण दृष्टि)। केही ग्रहहरूको थप विशेष दृष्टि छन्।
+  {% else %}
+    Every planet aspects the <b>7th house</b> from its position with full
+    strength. Some planets have additional special aspects:
+  {% endif %}
+</p>
+
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>{% if locale=='ne' %}ग्रह{% else %}Planet{% endif %}</th>
+      <th>{% if locale=='ne' %}दृष्टि भावहरू{% else %}Houses aspected{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{% if locale=='ne' %}सूर्य, चन्द्र, बुध, शुक्र{% else %}Sun, Moon, Mercury, Venus{% endif %}</td>
+      <td>{% if locale=='ne' %}७ औं भाव मात्र{% else %}7th only{% endif %}</td>
+    </tr>
+    <tr>
+      <td>{% if locale=='ne' %}मङ्गल{% else %}Mars{% endif %}</td>
+      <td>{% if locale=='ne' %}४, ७, ८ औं भाव{% else %}4th, 7th, 8th{% endif %}</td>
+    </tr>
+    <tr>
+      <td>{% if locale=='ne' %}बृहस्पति (गुरु){% else %}Jupiter{% endif %}</td>
+      <td>{% if locale=='ne' %}५, ७, ९ औं भाव{% else %}5th, 7th, 9th{% endif %}</td>
+    </tr>
+    <tr>
+      <td>{% if locale=='ne' %}शनि{% else %}Saturn{% endif %}</td>
+      <td>{% if locale=='ne' %}३, ७, १० औं भाव{% else %}3rd, 7th, 10th{% endif %}</td>
+    </tr>
+    <tr>
+      <td>{% if locale=='ne' %}राहु, केतु{% else %}Rahu, Ketu{% endif %}</td>
+      <td>{% if locale=='ne' %}५, ७, ९ औं भाव (केही परम्पराले मात्र){% else %}5th, 7th, 9th (some traditions only){% endif %}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>{% if locale=='ne' %}उदाहरण{% else %}Example{% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    शनि १ (लग्न) मा छ भने उसले ३ (साहस/भाइ), ७ (वैवाहिक), र १० (करियर)
+    भावहरूलाई हेर्छ। यसको अर्थ: साहस, साझेदारी, र करियर — यी क्षेत्रमा
+    शनिको ‘धैर्य–पाठ’ देखिन्छ।
+  {% else %}
+    If Saturn is in House 1 (Lagna), it aspects houses 3 (siblings/courage),
+    7 (marriage), and 10 (career). Result: each of those areas carries
+    Saturn's "patience-test" flavor.
+  {% endif %}
+</p>
+
+<h2>{% if locale=='ne' %}राशि दृष्टि{% else %}Sign aspects (Rashi drishti){% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    जैमिनी पद्धतिमा ग्रह नभई <b>राशिले</b> राशिलाई हेर्ने नियम छ:
+  {% else %}
+    The Jaimini system uses a different model where <b>rashis</b> aspect
+    other rashis directly:
+  {% endif %}
+</p>
+<ul>
+  <li>{% if locale=='ne' %}चर राशिले (मेष/कर्क/तुला/मकर) सबै स्थिर र द्विस्वभाव राशिलाई हेर्छन् — एउटाबाहेक।{% else %}Movable signs (Aries/Cancer/Libra/Capricorn) aspect all fixed and dual signs — except their immediate neighbor.{% endif %}</li>
+  <li>{% if locale=='ne' %}स्थिर राशिले (वृष/सिंह/वृश्चिक/कुम्भ) सबै चर राशिलाई हेर्छन् — एउटाबाहेक।{% else %}Fixed signs aspect all movable signs — except their immediate neighbor.{% endif %}</li>
+  <li>{% if locale=='ne' %}द्विस्वभाव राशिले (मिथुन/कन्या/धनु/मीन) सबै द्विस्वभाव राशिलाई हेर्छन्।{% else %}Dual signs aspect all other dual signs.{% endif %}</li>
+</ul>
+
+<p class="muted">
+  {% if locale == 'ne' %}
+    <i>परम्परागत वैदिक पद्धतिमा सामान्यतया ग्रह दृष्टि नै बढी प्रयोग
+    हुन्छ। राशि दृष्टि उन्नत पठनको विषय।</i>
+  {% else %}
+    <i>Mainstream Vedic readings primarily use planetary drishti. Rashi drishti
+    is an advanced reading concept, used heavily in Jaimini.</i>
+  {% endif %}
+</p>
+{% endblock %}

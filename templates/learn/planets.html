@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}९ ग्रह{% else %}9 Grahas (Planets){% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}९ ग्रह (Grahas){% else %}The 9 Grahas (Planets){% endif %}</h1>
+<p>
+  {% if locale == 'ne' %}
+    वैदिक ज्योतिषमा नौ ‘ग्रह’ हुन्छन् — सात आँखाले देखिने ज्योतिष-निकाय
+    (सूर्य, चन्द्र, मङ्गल, बुध, बृहस्पति, शुक्र, शनि) र चन्द्रको दुई पात
+    (राहु–केतु, गणितीय बिन्दु)।
+  {% else %}
+    Vedic astrology uses nine grahas: the seven visible bodies (Sun, Moon,
+    Mars, Mercury, Jupiter, Venus, Saturn) plus the two lunar nodes Rahu
+    and Ketu (mathematical points where the Moon's orbit crosses the ecliptic).
+  {% endif %}
+</p>
+
+<div class="toc">
+  <h4>{% if locale=='ne' %}जान्नुहोस्{% else %}On this page{% endif %}</h4>
+  <ul>
+    {% for en_name, dev, sa, en in [
+        ('Sun','सूर्य','Surya','Sun'),
+        ('Moon','चन्द्र','Chandra','Moon'),
+        ('Mars','मङ्गल','Mangala','Mars'),
+        ('Mercury','बुध','Budha','Mercury'),
+        ('Jupiter','बृहस्पति','Guru','Jupiter'),
+        ('Venus','शुक्र','Shukra','Venus'),
+        ('Saturn','शनि','Shani','Saturn'),
+        ('Rahu','राहु','Rahu','Rahu'),
+        ('Ketu','केतु','Ketu','Ketu')
+    ] %}
+      <li><a href="#g-{{ en_name }}">{{ dev }} / {{ en }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% set order = ['Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu','Ketu'] %}
+{% set dev_map = {'Sun':'सूर्य','Moon':'चन्द्र','Mars':'मङ्गल','Mercury':'बुध','Jupiter':'बृहस्पति','Venus':'शुक्र','Saturn':'शनि','Rahu':'राहु','Ketu':'केतु'} %}
+
+{% for p in order %}
+<section class="card" id="g-{{ p }}">
+  <h2>{{ dev_map[p] }} / {{ p }}</h2>
+  <p><b>{% if locale=='ne' %}संक्षिप्त परिचय:{% else %}In brief:{% endif %}</b>
+     {{ planet_meanings[p] }}</p>
+  <h3>{% if locale=='ne' %}मनोवैज्ञानिक स्वरूप{% else %}Psychological signature{% endif %}</h3>
+  <p>{{ (psy_ne if locale=='ne' else psy_en)[p] }}</p>
+</section>
+{% endfor %}
+
+<p>
+  <a href="{{ url_for('learn_topic', topic='dashas') }}">→ {% if locale=='ne' %}हरेक ग्रहको महादशामा के हुन्छ{% else %}What each planet's Mahadasha brings{% endif %}</a>
+</p>
+{% endblock %}

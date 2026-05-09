@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}विशेष अवधारणा{% else %}Special Concepts{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}विशेष अवधारणा{% else %}Special Concepts{% endif %}</h1>
+
+<div class="toc">
+  <h4>{% if locale=='ne' %}यस पृष्ठमा{% else %}On this page{% endif %}</h4>
+  <ul>
+    <li><a href="#exalt">{% if locale=='ne' %}उच्च र नीच{% else %}Exaltation &amp; Debilitation{% endif %}</a></li>
+    <li><a href="#own">{% if locale=='ne' %}स्व-राशि र मूलत्रिकोण{% else %}Own sign &amp; Moolatrikona{% endif %}</a></li>
+    <li><a href="#combust">{% if locale=='ne' %}अस्त (Combustion){% else %}Combustion{% endif %}</a></li>
+    <li><a href="#retro">{% if locale=='ne' %}वक्री (Retrograde){% else %}Retrograde{% endif %}</a></li>
+    <li><a href="#ayanamsa">{% if locale=='ne' %}अयनांश{% else %}Ayanamsa{% endif %}</a></li>
+    <li><a href="#divisional">{% if locale=='ne' %}विभाग कुण्डली (D9){% else %}Divisional charts (D9){% endif %}</a></li>
+  </ul>
+</div>
+
+<h2 id="exalt">{% if locale=='ne' %}उच्च र नीच (Exaltation/Debilitation){% else %}Exaltation &amp; Debilitation{% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    हरेक ग्रहको एउटा राशि छ जहाँ ऊ <b>उच्च</b> (सबभन्दा बलियो) हुन्छ; र
+    त्यसबाट १८०° पर ऊ <b>नीच</b> (सबभन्दा कमजोर) हुन्छ।
+  {% else %}
+    Each planet has one sign where it is <b>exalted</b> (strongest), and
+    180° opposite, the sign where it is <b>debilitated</b> (weakest).
+  {% endif %}
+</p>
+
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>{% if locale=='ne' %}ग्रह{% else %}Planet{% endif %}</th>
+      <th>{% if locale=='ne' %}उच्च{% else %}Exalted in{% endif %}</th>
+      <th>{% if locale=='ne' %}नीच{% else %}Debilitated in{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>{% if locale=='ne' %}सूर्य{% else %}Sun{% endif %}</td>     <td>{% if locale=='ne' %}मेष (१०°){% else %}Aries (10°){% endif %}</td>    <td>{% if locale=='ne' %}तुला (१०°){% else %}Libra (10°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}चन्द्र{% else %}Moon{% endif %}</td>    <td>{% if locale=='ne' %}वृष (३°){% else %}Taurus (3°){% endif %}</td>    <td>{% if locale=='ne' %}वृश्चिक (३°){% else %}Scorpio (3°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}मङ्गल{% else %}Mars{% endif %}</td>    <td>{% if locale=='ne' %}मकर (२८°){% else %}Capricorn (28°){% endif %}</td><td>{% if locale=='ne' %}कर्क (२८°){% else %}Cancer (28°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}बुध{% else %}Mercury{% endif %}</td>   <td>{% if locale=='ne' %}कन्या (१५°){% else %}Virgo (15°){% endif %}</td>  <td>{% if locale=='ne' %}मीन (१५°){% else %}Pisces (15°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}गुरु{% else %}Jupiter{% endif %}</td> <td>{% if locale=='ne' %}कर्क (५°){% else %}Cancer (5°){% endif %}</td>   <td>{% if locale=='ne' %}मकर (५°){% else %}Capricorn (5°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}शुक्र{% else %}Venus{% endif %}</td>   <td>{% if locale=='ne' %}मीन (२७°){% else %}Pisces (27°){% endif %}</td>  <td>{% if locale=='ne' %}कन्या (२७°){% else %}Virgo (27°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}शनि{% else %}Saturn{% endif %}</td>    <td>{% if locale=='ne' %}तुला (२०°){% else %}Libra (20°){% endif %}</td>  <td>{% if locale=='ne' %}मेष (२०°){% else %}Aries (20°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}राहु{% else %}Rahu{% endif %}</td>     <td>{% if locale=='ne' %}वृष / मिथुन{% else %}Taurus / Gemini{% endif %}</td><td>{% if locale=='ne' %}वृश्चिक / धनु{% else %}Scorpio / Sagittarius{% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}केतु{% else %}Ketu{% endif %}</td>     <td>{% if locale=='ne' %}वृश्चिक / धनु{% else %}Scorpio / Sagittarius{% endif %}</td><td>{% if locale=='ne' %}वृष / मिथुन{% else %}Taurus / Gemini{% endif %}</td></tr>
+  </tbody>
+</table>
+
+<h2 id="own">{% if locale=='ne' %}स्व-राशि र मूलत्रिकोण{% else %}Own sign (Sva-rashi) &amp; Moolatrikona{% endif %}</h2>
+
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>{% if locale=='ne' %}ग्रह{% else %}Planet{% endif %}</th>
+      <th>{% if locale=='ne' %}स्वामी राशि{% else %}Owns{% endif %}</th>
+      <th>{% if locale=='ne' %}मूलत्रिकोण{% else %}Moolatrikona{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>{% if locale=='ne' %}सूर्य{% else %}Sun{% endif %}</td>   <td>{% if locale=='ne' %}सिंह{% else %}Leo{% endif %}</td>          <td>{% if locale=='ne' %}सिंह (०–२०°){% else %}Leo (0–20°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}चन्द्र{% else %}Moon{% endif %}</td>  <td>{% if locale=='ne' %}कर्क{% else %}Cancer{% endif %}</td>       <td>{% if locale=='ne' %}वृष (४–२०°){% else %}Taurus (4–20°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}मङ्गल{% else %}Mars{% endif %}</td>  <td>{% if locale=='ne' %}मेष, वृश्चिक{% else %}Aries, Scorpio{% endif %}</td><td>{% if locale=='ne' %}मेष (०–१२°){% else %}Aries (0–12°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}बुध{% else %}Mercury{% endif %}</td>  <td>{% if locale=='ne' %}मिथुन, कन्या{% else %}Gemini, Virgo{% endif %}</td><td>{% if locale=='ne' %}कन्या (१६–२०°){% else %}Virgo (16–20°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}गुरु{% else %}Jupiter{% endif %}</td><td>{% if locale=='ne' %}धनु, मीन{% else %}Sagittarius, Pisces{% endif %}</td><td>{% if locale=='ne' %}धनु (०–१०°){% else %}Sagittarius (0–10°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}शुक्र{% else %}Venus{% endif %}</td>  <td>{% if locale=='ne' %}वृष, तुला{% else %}Taurus, Libra{% endif %}</td><td>{% if locale=='ne' %}तुला (०–१५°){% else %}Libra (0–15°){% endif %}</td></tr>
+    <tr><td>{% if locale=='ne' %}शनि{% else %}Saturn{% endif %}</td>   <td>{% if locale=='ne' %}मकर, कुम्भ{% else %}Capricorn, Aquarius{% endif %}</td><td>{% if locale=='ne' %}कुम्भ (०–२०°){% else %}Aquarius (0–20°){% endif %}</td></tr>
+  </tbody>
+</table>
+<p class="muted">
+  {% if locale == 'ne' %}
+    राहु–केतुसँग पारम्परिक स्व-राशि छैन; तर तिनले अधिकार लिएको भाव/राशि अनुसार फल दिन्छन्।
+  {% else %}
+    Rahu and Ketu have no traditional own signs; their results follow the
+    sign and house they occupy.
+  {% endif %}
+</p>
+
+<h2 id="combust">{% if locale=='ne' %}अस्त (Combustion){% else %}Combustion (Asta){% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    जुन ग्रह सूर्यबाट निश्चित दूरीभित्र छ, त्यो ‘अस्त’ हुन्छ। सूर्यको
+    चमकले त्यस ग्रहको शक्ति निल्छ। अस्त ग्रहले फल कमजोर दिन्छ —
+    विशेषतः बाह्य फल। आन्तरिक/आत्म-केन्द्रित फल भने मजबूत हुन सक्छ।
+  {% else %}
+    A planet within a certain distance from the Sun is "combust" (asta) —
+    the Sun's brilliance overwhelms it. A combust planet's outer effects
+    weaken; its inner / self-oriented effects can paradoxically strengthen.
+  {% endif %}
+</p>
+<table class="ref-table">
+  <thead><tr><th>{% if locale=='ne' %}ग्रह{% else %}Planet{% endif %}</th><th>{% if locale=='ne' %}अस्त सीमा{% else %}Combust within{% endif %}</th></tr></thead>
+  <tbody>
+    <tr><td>{% if locale=='ne' %}चन्द्र{% else %}Moon{% endif %}</td>  <td>12°</td></tr>
+    <tr><td>{% if locale=='ne' %}मङ्गल{% else %}Mars{% endif %}</td>  <td>17°</td></tr>
+    <tr><td>{% if locale=='ne' %}बुध{% else %}Mercury{% endif %}</td>  <td>14° ({% if locale=='ne' %}वक्री हुँदा १२°{% else %}12° if retrograde{% endif %})</td></tr>
+    <tr><td>{% if locale=='ne' %}गुरु{% else %}Jupiter{% endif %}</td><td>11°</td></tr>
+    <tr><td>{% if locale=='ne' %}शुक्र{% else %}Venus{% endif %}</td>  <td>10° ({% if locale=='ne' %}वक्री हुँदा ८°{% else %}8° if retrograde{% endif %})</td></tr>
+    <tr><td>{% if locale=='ne' %}शनि{% else %}Saturn{% endif %}</td>   <td>15°</td></tr>
+  </tbody>
+</table>
+
+<h2 id="retro">{% if locale=='ne' %}वक्री (Retrograde){% else %}Retrograde (Vakri){% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    जब पृथ्वीको दृष्टिबाट कुनै ग्रह आकाशमा ‘उल्टो’ चलेजस्तो देखिन्छ, त्यसलाई
+    <b>वक्री</b> भनिन्छ। केवल <b>तारा-ग्रह</b> (मङ्गल, बुध, गुरु, शुक्र, शनि)
+    वक्री हुन्छन् — सूर्य र चन्द्र कहिल्यै हुँदैनन्। राहु र केतु सधैँ ‘वक्री
+    जस्तै’ चल्छन्।
+  {% else %}
+    When a planet appears (from Earth) to move backwards through the zodiac,
+    it is <b>retrograde</b>. Only the <b>star-planets</b> (Mars, Mercury,
+    Jupiter, Venus, Saturn) ever go retrograde — Sun and Moon never do. Rahu
+    and Ketu always move "as if" retrograde.
+  {% endif %}
+</p>
+<p>
+  {% if locale == 'ne' %}
+    परम्परागत व्याख्या: वक्री ग्रह तीव्र, गहन, र भित्री-केन्द्रित हुन्छ।
+    शुभ ग्रह वक्री = फल आधा वा ढिलो; पीडक ग्रह वक्री = असर तीक्ष्ण।
+  {% else %}
+    Traditional take: a retrograde planet acts more intensely and inwardly.
+    A benefic in retrograde may delay or muffle results; a malefic intensifies.
+  {% endif %}
+</p>
+
+<h2 id="ayanamsa">{% if locale=='ne' %}अयनांश (Ayanamsa){% else %}Ayanamsa{% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    आधुनिक खगोलशास्त्रको ‘सायन’ (वसन्त-सम्पात आधारित) र वैदिक ज्योतिषको
+    ‘निरयन’ (तारा-स्थिर) राशिमा फरक छ — त्यो फरक नै <b>अयनांश</b>। हाम्रो
+    साइटले <b>लाहिरी अयनांश</b> (नेपाल/भारतको सरकारी मानक) प्रयोग गर्छ —
+    २०२६ मा करिब २४.२° को मान।
+  {% else %}
+    The difference between the modern tropical zodiac (anchored to the
+    spring equinox) and the Vedic sidereal zodiac (anchored to fixed stars)
+    is called the <b>ayanamsa</b>. This site uses the <b>Lahiri ayanamsa</b>
+    (the official Indian/Nepali standard), which is around 24.2° in 2026.
+  {% endif %}
+</p>
+
+<h2 id="divisional">{% if locale=='ne' %}विभाग कुण्डली (D9 — नवांश){% else %}Divisional charts (D9 — Navamsha){% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    जन्म कुण्डली (D1) मात्र होइन, हरेक राशिलाई ९ टुक्रामा बाँडेर
+    <b>नवांश (D9)</b> बनाइन्छ — विवाह, सम्बन्ध, र ग्रहको ‘भित्री शक्ति’
+    हेर्न प्रयोग। अरू पनि — D7 (सन्तान), D10 (करियर), D12 (बुबा-आमा), D60
+    (सूक्ष्म फल) — हरेकले विशेष क्षेत्रको गहन व्याख्या दिन्छ।
+  {% else %}
+    Beyond the birth chart (D1), each rashi is divided into 9 to make the
+    <b>Navamsha (D9)</b> — used for marriage, relationships, and a planet's
+    "inner strength". Other divisions: D7 (children), D10 (career),
+    D12 (parents), D60 (subtle results) — each gives finer reading of a
+    specific area.
+  {% endif %}
+</p>
+
+<p class="muted">
+  {% if locale == 'ne' %}
+    <i>हाल हाम्रो साइटले D1 (मूल कुण्डली) मात्र देखाउँछ। D9 भविष्यमा थपिने।</i>
+  {% else %}
+    <i>This site currently shows D1 (the birth chart) only. D9 navamsha
+    is on the roadmap.</i>
+  {% endif %}
+</p>
+{% endblock %}

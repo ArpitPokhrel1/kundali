@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}विंशोत्तरी दशा{% else %}Vimshottari Dashas{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}विंशोत्तरी महादशा{% else %}Vimshottari Mahadasha{% endif %}</h1>
+
+<p>
+  {% if locale == 'ne' %}
+    <b>विंशोत्तरी</b> भनेको १२० वर्षको चक्र — ९ ग्रहले बाँडेर लिने
+    अवधिहरू (<i>महादशा</i>)। हरेक महादशाले त्यस अवधिको जीवनलाई आफ्नो
+    स्वामीको गुणले रङ्ग्याउँछ। जन्म समयमा चन्द्र कुन नक्षत्रमा थियो —
+    त्यसले सुरुको दशा-स्वामी तय गर्छ।
+  {% else %}
+    <b>Vimshottari</b> is a 120-year cycle of nine planetary periods called
+    <i>Mahadashas</i>. Each Mahadasha colors that stretch of life with its
+    lord's qualities. The Moon's nakshatra at birth determines which lord's
+    period you start with.
+  {% endif %}
+</p>
+
+<h2>{% if locale=='ne' %}क्रम र अवधि{% else %}Order and durations{% endif %}</h2>
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>{% if locale=='ne' %}स्वामी{% else %}Lord{% endif %}</th>
+      <th>{% if locale=='ne' %}अवधि{% else %}Years{% endif %}</th>
+      <th>{% if locale=='ne' %}मुख्य विषय{% else %}Core theme{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% set summaries = {
+      'Ketu':    ('केतु',     7,  'वैराग्य, आध्यात्मिक छोडाइ' if locale=='ne' else 'detachment, spiritual release'),
+      'Venus':   ('शुक्र',    20, 'प्रेम, सुख, साझेदारी' if locale=='ne' else 'love, comfort, partnership'),
+      'Sun':     ('सूर्य',    6,  'पहिचान, अधिकार' if locale=='ne' else 'identity, authority'),
+      'Moon':    ('चन्द्र',   10, 'मन, परिवार, भावना' if locale=='ne' else 'mind, family, emotion'),
+      'Mars':    ('मङ्गल',    7,  'साहस, द्वन्द्व, ऊर्जा' if locale=='ne' else 'courage, conflict, drive'),
+      'Rahu':    ('राहु',     18, 'महत्त्वाकाङ्क्षा, परिवर्तन' if locale=='ne' else 'ambition, transformation'),
+      'Jupiter': ('बृहस्पति', 16, 'विस्तार, ज्ञान, धर्म' if locale=='ne' else 'expansion, wisdom, dharma'),
+      'Saturn':  ('शनि',      19, 'श्रम, धैर्य, परिपक्वता' if locale=='ne' else 'discipline, patience, maturity'),
+      'Mercury': ('बुध',      17, 'बुद्धि, व्यापार, सम्पर्क' if locale=='ne' else 'intellect, commerce, network')
+    } %}
+    {% for lord in ['Ketu','Venus','Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury'] %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td><span class="dev name">{{ summaries[lord][0] }}</span> / {{ lord }}</td>
+      <td>{{ summaries[lord][1] }}</td>
+      <td>{{ summaries[lord][2] }}</td>
+    </tr>
+    {% endfor %}
+    <tr><td colspan="2"><b>{% if locale=='ne' %}जम्मा{% else %}Total{% endif %}</b></td>
+        <td><b>120</b></td><td></td></tr>
+  </tbody>
+</table>
+
+<h2>{% if locale=='ne' %}सुरु कसरी हुन्छ?{% else %}How does it begin?{% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    जन्म नक्षत्रको स्वामीले पहिलो महादशा दिन्छ। तर त्यो पूर्ण होइन —
+    जन्म हुँदा त्यस नक्षत्रको कति बाँकी थियो, त्यतिकै महादशा बाँकी रहन्छ।
+    उदाहरण: जन्म हुँदा चन्द्र अश्विनी नक्षत्रमा छ भने पहिलो महादशा केतुको
+    हुन्छ; अश्विनीको आधा बाँकी थियो भने ७ × ½ = ३.५ वर्ष केतुको दशा रहन्छ।
+  {% else %}
+    The lord of your Janma Nakshatra gives the first Mahadasha — but only the
+    UNUSED fraction of that nakshatra's period. Example: born with Moon in
+    Ashwini → first Mahadasha is Ketu; if half of Ashwini was already
+    traversed at birth, you get 7 × ½ = 3.5 years of Ketu.
+  {% endif %}
+</p>
+
+<h2>{% if locale=='ne' %}हरेक महादशामा प्रायः के हुन्छ{% else %}What each Mahadasha typically brings{% endif %}</h2>
+<p class="muted">
+  {% if locale == 'ne' %}
+    तलका विवरण <i>सामान्य</i> हुन् — वास्तविक फल जन्म-कुण्डलीमा त्यस
+    ग्रहको स्थानले निर्धारण गर्छ।
+  {% else %}
+    These descriptions are general — actual results depend on the placement
+    and dignity of that lord in the birth chart.
+  {% endif %}
+</p>
+
+{% set source = mahadasha_ne if locale == 'ne' else mahadasha_en %}
+{% for lord in ['Ketu','Venus','Sun','Moon','Mars','Rahu','Jupiter','Saturn','Mercury'] %}
+  {% set notes = source[lord] %}
+<section class="card" id="d-{{ lord }}">
+  <h3>{{ notes['headline'] }}</h3>
+  <h4>{% if locale=='ne' %}समग्र दृष्टि{% else %}Overview{% endif %}</h4>
+  <p>{{ notes['overview'] }}</p>
+  <h4>{% if locale=='ne' %}करियर र वित्त{% else %}Career &amp; finance{% endif %}</h4>
+  <p>{{ notes['career'] }}</p>
+  <h4>{% if locale=='ne' %}सम्बन्ध{% else %}Relationships{% endif %}</h4>
+  <p>{{ notes['relationships'] }}</p>
+  <h4>{% if locale=='ne' %}स्वास्थ्य{% else %}Health{% endif %}</h4>
+  <p>{{ notes['health'] }}</p>
+  <h4>{% if locale=='ne' %}मन र मनोविज्ञान{% else %}Mind &amp; psychology{% endif %}</h4>
+  <p>{{ notes['psychology'] }}</p>
+  <h4>{% if locale=='ne' %}पढ्ने टिप्स{% else %}Tip for reading{% endif %}</h4>
+  <p>{{ notes['tip'] }}</p>
+</section>
+{% endfor %}
+
+<h2>{% if locale=='ne' %}उप-दशा (Antardasha){% else %}Sub-periods (Antardasha){% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    महादशालाई १२० वर्षकै अनुपातमा फेरि ९ ग्रहमा बाँड्दा <b>अन्तरदशा</b>
+    निस्किन्छ। उदाहरण: १६ वर्षको गुरुको महादशामा गुरु-शुक्र अन्तरदशा
+    २०/१२० × १६ ≈ २.६६ वर्ष। यसले सूक्ष्म समयको पूर्वानुमान दिन्छ। थप
+    सूक्ष्म तह: <b>प्रत्यन्तर</b> (दशा / अन्तरदशा / प्रत्यन्तर)।
+  {% else %}
+    Each Mahadasha is further subdivided into 9 <b>Antardashas</b> (sub-periods)
+    in the same 120-year proportion. Example: in a 16-year Jupiter Mahadasha,
+    the Jupiter–Venus antardasha is 20/120 × 16 ≈ 2.66 years. This gives
+    finer timing. Even finer: <b>Pratyantar</b> (Maha / Antar / Pratyantar).
+  {% endif %}
+</p>
+{% endblock %}

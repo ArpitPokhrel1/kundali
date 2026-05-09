@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}१२ राशि{% else %}12 Rashis{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}१२ राशि (Rashis){% else %}The 12 Rashis (Signs){% endif %}</h1>
+<p>
+  {% if locale == 'ne' %}
+    राशि भनेको आकाशको ३०° को टुक्रा हो। १२ राशिले मिलेर पूरा वृत्त (३६०°) बनाउँछन्।
+    हरेक राशिको आफ्नो स्वामी ग्रह र विशेष स्वभाव हुन्छ। राशि गुणको तीन समूह
+    (तत्त्व र भाव) मा पनि बाँडिन्छन्।
+  {% else %}
+    A rashi is a 30° slice of the sky. Twelve rashis make a full 360° circle.
+    Each rashi has a ruling planet and a characteristic temperament. Rashis
+    are also grouped by element (fire / earth / air / water) and modality
+    (movable / fixed / dual).
+  {% endif %}
+</p>
+
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>{% if locale=='ne' %}राशि{% else %}Rashi{% endif %}</th>
+      <th>{% if locale=='ne' %}अङ्ग्रेजी{% else %}English{% endif %}</th>
+      <th>{% if locale=='ne' %}स्वभाव र स्वामी{% else %}Nature & Lord{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dev, sa, en in rashis %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td><span class="dev name">{{ dev }}</span></td>
+      <td>{{ en }} <span class="muted">/ {{ sa }}</span></td>
+      <td>{{ rashi_traits[en] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>{% if locale=='ne' %}तत्त्व समूह{% else %}Element groups{% endif %}</h2>
+{% if locale == 'ne' %}
+<ul>
+  <li><b>अग्नि:</b> मेष, सिंह, धनु — सक्रिय, उत्साही, नेतृत्वमुखी</li>
+  <li><b>पृथ्वी:</b> वृष, कन्या, मकर — स्थिर, व्यावहारिक, मेहनती</li>
+  <li><b>वायु:</b> मिथुन, तुला, कुम्भ — सञ्चारशील, बौद्धिक, सामाजिक</li>
+  <li><b>जल:</b> कर्क, वृश्चिक, मीन — भावुक, गहन, अन्तर्ज्ञानी</li>
+</ul>
+{% else %}
+<ul>
+  <li><b>Fire:</b> Aries, Leo, Sagittarius — active, enthusiastic, leader-like.</li>
+  <li><b>Earth:</b> Taurus, Virgo, Capricorn — grounded, practical, hard-working.</li>
+  <li><b>Air:</b> Gemini, Libra, Aquarius — communicative, intellectual, social.</li>
+  <li><b>Water:</b> Cancer, Scorpio, Pisces — emotional, deep, intuitive.</li>
+</ul>
+{% endif %}
+
+<h2>{% if locale=='ne' %}भाव समूह{% else %}Modality groups{% endif %}</h2>
+{% if locale == 'ne' %}
+<ul>
+  <li><b>चर (Movable):</b> मेष, कर्क, तुला, मकर — परिवर्तन ल्याउने।</li>
+  <li><b>स्थिर (Fixed):</b> वृष, सिंह, वृश्चिक, कुम्भ — टिकाउने।</li>
+  <li><b>द्विस्वभाव (Dual):</b> मिथुन, कन्या, धनु, मीन — अनुकूल हुने।</li>
+</ul>
+{% else %}
+<ul>
+  <li><b>Movable (Chara):</b> Aries, Cancer, Libra, Capricorn — initiate change.</li>
+  <li><b>Fixed (Sthira):</b> Taurus, Leo, Scorpio, Aquarius — sustain.</li>
+  <li><b>Dual (Dvisvabhava):</b> Gemini, Virgo, Sagittarius, Pisces — adapt.</li>
+</ul>
+{% endif %}
+
+<p class="muted">
+  {% if locale=='ne' %}
+    राशिले ग्रहलाई कसरी असर गर्छ हेर्न <a href="{{ url_for('learn_topic', topic='concepts') }}">विशेष अवधारणा</a> मा उच्च–नीच तालिका हेर्नुहोस्।
+  {% else %}
+    For how a rashi affects each planet, see the
+    <a href="{{ url_for('learn_topic', topic='concepts') }}">Special Concepts</a>
+    page (exaltation / debilitation table).
+  {% endif %}
+</p>
+{% endblock %}

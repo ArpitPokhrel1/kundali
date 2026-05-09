@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}२७ नक्षत्र{% else %}27 Nakshatras{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+<h1>{% if locale=='ne' %}२७ नक्षत्र (Nakshatras){% else %}The 27 Nakshatras{% endif %}</h1>
+<p>
+  {% if locale == 'ne' %}
+    नक्षत्र भनेको आकाशको २७ टुक्रा हुन् — हरेक १३°२०′ को (राशिभन्दा सूक्ष्म)।
+    चन्द्र जुन नक्षत्रमा रहन्छ, त्यसैले व्यक्तिको जन्म नक्षत्र निर्धारण गर्छ।
+    नक्षत्रले विंशोत्तरी महादशाको प्रारम्भ-स्वामी पनि तय गर्छ।
+  {% else %}
+    The 27 nakshatras (lunar mansions) divide the sky into 13°20′ slices —
+    finer than the rashis. The nakshatra in which the Moon sits at birth
+    becomes the <i>Janma Nakshatra</i>, which also fixes the starting lord
+    of your Vimshottari Dasha.
+  {% endif %}
+</p>
+
+<p class="muted">
+  {% if locale == 'ne' %}
+    हरेक नक्षत्रको ४ <b>पाद</b> (३°२०′ प्रत्येक) हुन्छन्। नक्षत्रको स्वामी ग्रहले विंशोत्तरी क्रम तय गर्छ।
+  {% else %}
+    Each nakshatra has 4 <b>padas</b> (3°20′ each). The nakshatra's lord
+    determines the Vimshottari order at birth.
+  {% endif %}
+</p>
+
+<table class="ref-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>{% if locale=='ne' %}नक्षत्र{% else %}Nakshatra{% endif %}</th>
+      <th>{% if locale=='ne' %}स्वामी{% else %}Lord{% endif %}</th>
+      <th>{% if locale=='ne' %}विषय{% else %}Theme{% endif %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dev, en in nakshatras %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td><span class="dev name">{{ dev }}</span> <span class="muted">/ {{ en }}</span></td>
+      <td>{{ nakshatra_lords[loop.index0] }}</td>
+      <td>{{ nakshatra_themes[en] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>{% if locale=='ne' %}विंशोत्तरी क्रम{% else %}Vimshottari order{% endif %}</h2>
+<p>
+  {% if locale == 'ne' %}
+    नक्षत्र-स्वामीहरू ९ ग्रहमा यसरी दोहोरिन्छन्:
+  {% else %}
+    The 9 nakshatra lords cycle in this order:
+  {% endif %}
+</p>
+<p style="text-align:center;font-size:18px;">
+  Ketu → Venus → Sun → Moon → Mars → Rahu → Jupiter → Saturn → Mercury
+</p>
+<p class="muted">
+  {% if locale == 'ne' %}
+    अश्विनी = केतु, भरणी = शुक्र, कृत्तिका = सूर्य, ... हरेक ९ नक्षत्रमा
+    यो ९-ग्रह क्रम तीन पटक दोहोरिन्छ (२७ नक्षत्र / ९ = ३ चक्र)।
+  {% else %}
+    Ashwini = Ketu, Bharani = Venus, Krittika = Sun, ... this 9-graha
+    sequence repeats three times across the 27 nakshatras (27 / 9 = 3 cycles).
+  {% endif %}
+</p>
+
+<p>
+  <a href="{{ url_for('learn_topic', topic='dashas') }}">→ {% if locale=='ne' %}विंशोत्तरी दशाको पूर्ण विवरण{% else %}Full Vimshottari guide{% endif %}</a>
+</p>
+{% endblock %}

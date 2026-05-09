@@ -1,0 +1,6 @@
+pyswisseph>=2.10.3
+nepali-datetime>=1.0.8
+geopy>=2.4.0
+timezonefinder>=6.0.0
+tzdata>=2024.1
+flask>=3.0.0

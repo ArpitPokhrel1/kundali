@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block title %}{% if locale=='ne' %}कुण्डली कसरी पढ्ने{% else %}How to Read a Kundali{% endif %} — Astro-Nepali{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('learn_index') }}">← {% if locale=='ne' %}सबै विषय{% else %}All topics{% endif %}</a></p>
+
+{% if locale == 'ne' %}
+<h1>कुण्डली कसरी पढ्ने — पाइला–पाइला</h1>
+
+<div class="toc">
+  <h4>विषय सूची</h4>
+  <ul>
+    <li><a href="#concepts">१. आधारभूत अवधारणा</a></li>
+    <li><a href="#anchors">२. तीन मुख्य आधार: लग्न, चन्द्र, सूर्य</a></li>
+    <li><a href="#houses">३. भावले के बुझाउँछन्</a></li>
+    <li><a href="#planets">४. ग्रहहरू कसरी असर गर्छन्</a></li>
+    <li><a href="#dignities">५. ग्रहको ‘दशा’ — बल/कमजोरी</a></li>
+    <li><a href="#timing">६. समय: विंशोत्तरी दशा</a></li>
+    <li><a href="#process">७. व्यावहारिक प्रक्रिया</a></li>
+  </ul>
+</div>
+
+<h2 id="concepts">१. आधारभूत अवधारणा</h2>
+<p>कुण्डली भनेको तपाईं जन्मेको बेला आकाश कस्तो थियो भन्ने तस्बिर हो।
+वैदिक ज्योतिषले आकाशलाई:</p>
+<ul>
+  <li><b>१२ राशि</b> मा बाँड्छ (हरेक ३०°)</li>
+  <li><b>२७ नक्षत्र</b> मा (हरेक १३°२०′)</li>
+  <li>र <b>१२ भाव</b> (जीवनका क्षेत्र) मा</li>
+</ul>
+<p>नौ ‘ग्रह’ — सूर्य, चन्द्र, मङ्गल, बुध, बृहस्पति, शुक्र, शनि, राहु, र केतु —
+यी राशि र भावमा कसरी बसेका छन् भनेर पढिन्छ।</p>
+
+<h2 id="anchors">२. तीन मुख्य आधार</h2>
+<p>कुनै पनि कुण्डली पढ्न सुरु गर्दा यी तीन कुरा पहिले हेरिन्छ:</p>
+<dl class="glossary">
+  <dt>लग्न (Ascendant)</dt>
+  <dd>जन्म समयमा पूर्वी क्षितिजमा उदाएको राशि। यसले तपाईं
+      ‘बाहिर कस्तो देखिनुहुन्छ, नयाँ ठाउँमा कस्तो प्रतिक्रिया दिनुहुन्छ’
+      देखाउँछ। पहिलो भाव सधैँ लग्नकै राशि।</dd>
+  <dt>चन्द्र राशि / जन्म राशि</dt>
+  <dd>जन्म समयमा चन्द्र कुन राशिमा थियो। यो तपाईंको <b>भित्री मन</b> र
+      भावनात्मक संसारको पहिचान।</dd>
+  <dt>सूर्य राशि (निरयन)</dt>
+  <dd>जन्म समयमा सूर्य कुन राशिमा थियो। यो आत्मा र मूल पहिचान।
+      <span class="muted">(निरयन — पाश्चात्य ज्योतिषको ‘सायन’ राशिभन्दा प्रायः एक राशि अघिको।)</span></dd>
+</dl>
+
+<h2 id="houses">३. भावले के बुझाउँछन्</h2>
+<p>१२ भाव = जीवनका १२ क्षेत्र। पहिलो भाव सधैँ लग्न; त्यसपछि उल्टो (वामावर्त) क्रममा अरू।</p>
+<p><a href="{{ url_for('learn_topic', topic='houses') }}">→ सबै १२ भावको विस्तृत विवरण</a></p>
+
+<h2 id="planets">४. ग्रहहरू कसरी असर गर्छन्</h2>
+<p>हरेक ग्रहले विशेष विषय बुझाउँछ:</p>
+<ul>
+  <li><b>सूर्य</b> — आत्मा, बुबा, अधिकार</li>
+  <li><b>चन्द्र</b> — मन, आमा, भावना</li>
+  <li><b>मङ्गल</b> — साहस, ऊर्जा, भाइ</li>
+  <li><b>बुध</b> — बुद्धि, वाणी, व्यापार</li>
+  <li><b>गुरु</b> — ज्ञान, समृद्धि, धर्म</li>
+  <li><b>शुक्र</b> — प्रेम, कला, सुख</li>
+  <li><b>शनि</b> — श्रम, धैर्य, उमेर</li>
+  <li><b>राहु, केतु</b> — कर्मगत भोक र वैराग्य</li>
+</ul>
+<p><a href="{{ url_for('learn_topic', topic='planets') }}">→ हरेक ग्रहको पूर्ण मनोविज्ञान</a></p>
+
+<h2 id="dignities">५. ग्रहको बल/कमजोरी</h2>
+<p>एउटा ग्रह कुन राशिमा छ भन्ने कुराले त्यो ग्रहको ‘बल’ निर्धारण गर्छ:</p>
+<ul>
+  <li><b>उच्च (Exalted)</b> — सबभन्दा बलियो</li>
+  <li><b>स्व-राशि</b> — आफ्नै राशिमा, बलियो</li>
+  <li><b>मित्र-राशि</b> — साथीको राशिमा, राम्रो</li>
+  <li><b>शत्रु-राशि</b> — कमजोर</li>
+  <li><b>नीच (Debilitated)</b> — सबभन्दा कमजोर</li>
+</ul>
+<p><a href="{{ url_for('learn_topic', topic='concepts') }}">→ उच्च-नीच पूर्ण तालिका</a></p>
+
+<h2 id="timing">६. समय: विंशोत्तरी दशा</h2>
+<p>‘कति बेला के हुन्छ’ भन्ने प्रश्नको जवाफ <b>विंशोत्तरी दशा</b> ले दिन्छ —
+१२० वर्षको चक्र, ९ ग्रहले बाँडेको। हरेक अवधिले त्यस ग्रहको गुण
+जीवनमा सक्रिय बनाउँछ।</p>
+<p><a href="{{ url_for('learn_topic', topic='dashas') }}">→ विंशोत्तरी दशाको पूर्ण व्याख्या</a></p>
+
+<h2 id="process">७. व्यावहारिक प्रक्रिया</h2>
+<ol>
+  <li>लग्न पत्ता लगाउनुहोस् — पहिलो भावको राशि।</li>
+  <li>चन्द्र राशि र नक्षत्र हेर्नुहोस् — मनको स्वभाव।</li>
+  <li>सूर्य राशि — आत्माको दिशा।</li>
+  <li>हरेक ग्रह कुन भावमा छ हेर्नुहोस् — त्यो जीवन-क्षेत्रमा त्यस ग्रहको असर।</li>
+  <li>ग्रहको बल जाँच्नुहोस् (उच्च/नीच/स्व)।</li>
+  <li>हालको विंशोत्तरी दशा हेर्नुहोस् — अहिले कुन ग्रहको समय।</li>
+  <li>दशा-स्वामी कुन भावमा छ — त्यही जीवन-क्षेत्र अहिले सक्रिय।</li>
+</ol>
+
+<p class="muted"><i>नोट: यी सबै आधार हुन्। उन्नत पढाइमा दृष्टि, योग, र विभाग कुण्डली पनि थपिन्छन् — ती अघिल्ला विषय।</i></p>
+
+{% else %}
+<h1>How to Read a Kundali — Step by Step</h1>
+
+<div class="toc">
+  <h4>Contents</h4>
+  <ul>
+    <li><a href="#concepts">1. Basic concepts</a></li>
+    <li><a href="#anchors">2. The three anchors: Lagna, Moon, Sun</a></li>
+    <li><a href="#houses">3. What the houses mean</a></li>
+    <li><a href="#planets">4. How planets influence</a></li>
+    <li><a href="#dignities">5. Planetary strengths</a></li>
+    <li><a href="#timing">6. Timing: Vimshottari Dasha</a></li>
+    <li><a href="#process">7. A practical process</a></li>
+  </ul>
+</div>
+
+<h2 id="concepts">1. Basic concepts</h2>
+<p>A Kundali is a snapshot of the sky at the moment of birth. Vedic astrology
+divides the sky into:</p>
+<ul>
+  <li><b>12 rashis</b> (signs) — each 30°</li>
+  <li><b>27 nakshatras</b> (lunar mansions) — each 13°20′</li>
+  <li><b>12 bhavas</b> (houses) — areas of life</li>
+</ul>
+<p>Nine grahas — Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rahu, Ketu —
+are placed in these signs and houses, and their positions are read.</p>
+
+<h2 id="anchors">2. The three anchors</h2>
+<p>Almost every reading starts by understanding three things:</p>
+<dl class="glossary">
+  <dt>Lagna (Ascendant)</dt>
+  <dd>The sign rising on the eastern horizon at birth. It defines how you
+      APPEAR and how you meet new situations. The 1st house is always the
+      Lagna sign.</dd>
+  <dt>Moon sign / Janma Rashi</dt>
+  <dd>The sign the Moon was in. This is your INNER mind and emotional world —
+      more important than the Sun in Vedic readings.</dd>
+  <dt>Sun sign (sidereal)</dt>
+  <dd>The sign the Sun was in. Your CORE identity and soul direction.
+      <span class="muted">(Sidereal — usually one sign earlier than the
+      tropical sign in Western horoscopes.)</span></dd>
+</dl>
+
+<h2 id="houses">3. What the houses mean</h2>
+<p>The 12 bhavas cover 12 areas of life. The 1st = Lagna; the rest follow
+counterclockwise.</p>
+<p><a href="{{ url_for('learn_topic', topic='houses') }}">→ Full reference: all 12 houses</a></p>
+
+<h2 id="planets">4. How planets influence</h2>
+<ul>
+  <li><b>Sun</b> — soul, father, authority, vitality</li>
+  <li><b>Moon</b> — mind, mother, emotions</li>
+  <li><b>Mars</b> — courage, energy, siblings</li>
+  <li><b>Mercury</b> — intellect, speech, business</li>
+  <li><b>Jupiter</b> — wisdom, prosperity, dharma</li>
+  <li><b>Venus</b> — love, art, comfort</li>
+  <li><b>Saturn</b> — discipline, longevity, work</li>
+  <li><b>Rahu, Ketu</b> — karmic hunger and detachment</li>
+</ul>
+<p><a href="{{ url_for('learn_topic', topic='planets') }}">→ Full planet psychology</a></p>
+
+<h2 id="dignities">5. Planetary strengths</h2>
+<p>The sign a planet sits in determines its STRENGTH:</p>
+<ul>
+  <li><b>Exalted (Uchcha)</b> — strongest</li>
+  <li><b>Own sign (Sva-rashi)</b> — strong</li>
+  <li><b>Friend's sign</b> — comfortable</li>
+  <li><b>Enemy's sign</b> — weak</li>
+  <li><b>Debilitated (Neecha)</b> — weakest</li>
+</ul>
+<p><a href="{{ url_for('learn_topic', topic='concepts') }}">→ Exaltation/debilitation table</a></p>
+
+<h2 id="timing">6. Timing: Vimshottari Dasha</h2>
+<p>The question of "when does what happen?" is answered by <b>Vimshottari Dasha</b> —
+a 120-year cycle of 9 planetary periods. Each period activates the qualities
+of its ruling lord in your life.</p>
+<p><a href="{{ url_for('learn_topic', topic='dashas') }}">→ Full Vimshottari guide</a></p>
+
+<h2 id="process">7. A practical process</h2>
+<ol>
+  <li>Identify the Lagna — sign of the 1st house.</li>
+  <li>Read the Moon sign and Janma nakshatra — emotional nature.</li>
+  <li>Read the Sun sign — soul direction.</li>
+  <li>For each planet, note which house it sits in — that area of life feels its influence.</li>
+  <li>Check each planet's dignity (exalted / debilitated / own sign).</li>
+  <li>Check the current Vimshottari Mahadasha — which lord is active now.</li>
+  <li>See which house the dasha lord occupies — that area is highlighted right now.</li>
+</ol>
+
+<p class="muted"><i>Note: these are foundations. Advanced reading adds aspects, yogas, and divisional charts — covered in the other learn pages.</i></p>
+{% endif %}
+{% endblock %}
