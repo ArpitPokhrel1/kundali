@@ -182,4 +182,96 @@
       loading.style.display = 'none';
     }
   });
+
+  // ------- Export as PDF (client-side print) -------
+  const btnExport = $('#btn-export-pdf');
+  if (btnExport) {
+    btnExport.addEventListener('click', () => {
+      // Tabs in the order they should appear in the PDF
+      const order = [
+        ['summary',     'Summary'],
+        ['topics',      'Life Topics'],
+        ['drik',        'Drik + Janma Kundali'],
+        ['d9',          'D9 Navamsha'],
+        ['yogas',       'Yogas'],
+        ['dasha',       'Vimshottari Mahadasha'],
+        ['antardasha',  'Antardasha (Sub-periods)'],
+        ['ss',          'Surya Siddhanta'],
+        ['compare',     'Drik vs Surya Siddhanta'],
+        ['explanation', 'Explanation'],
+      ];
+      const name = ($('#name').value || 'Kundali').trim();
+      const printCss = `
+        @page { size: A4; margin: 16mm 14mm; }
+        body { font-family: 'Segoe UI', 'Mangal', 'Nirmala UI', Arial, sans-serif;
+               color: #222; font-size: 12px; line-height: 1.5; }
+        h1 { color: #4a148c; text-align: center; margin: 0 0 4px 0; }
+        h2 { color: #4a148c; border-bottom: 2px solid #ce93d8; padding-bottom: 4px;
+             page-break-after: avoid; margin-top: 14px; }
+        h3 { color: #6a1b9a; page-break-after: avoid; }
+        h4 { color: #7b1fa2; page-break-after: avoid; }
+        section.page { page-break-after: always; }
+        section.page:last-child { page-break-after: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 4px 0 10px 0; font-size: 11px; }
+        th { background: #ede7f6; color: #4a148c; text-align: left;
+             padding: 4px 8px; border: 1px solid #d1c4e9; }
+        td { padding: 4px 8px; border: 1px solid #e1bee7; vertical-align: top; }
+        tr { page-break-inside: avoid; }
+        .panel, .era, .edu, .planet-block {
+          background: #f3e5f5; border-left: 4px solid #8e24aa;
+          padding: 8px 12px; margin: 6px 0; page-break-inside: avoid; }
+        .edu { background: #fff8e1; border-left-color: #fbc02d; }
+        img, svg { max-width: 100%; height: auto; page-break-inside: avoid; }
+        .footer { margin-top: 20px; padding-top: 8px; border-top: 1px solid #ddd;
+                  text-align: center; color: #888; font-size: 11px; }
+        .footer a { color: #6a1b9a; text-decoration: none; }
+        .small { font-size: 10px; color: #666; }
+      `;
+      const date = new Date().toLocaleDateString();
+      const titleHtml = `
+        <h1>${escapeHtml(name)} — Janma Kundali</h1>
+        <div style="text-align:center;color:#666;font-size:11px;margin-bottom:14px;">
+          Generated ${date} ·
+          <a href="https://www.sandeepkafle.com.np">www.sandeepkafle.com.np</a>
+        </div>
+      `;
+      let body = titleHtml;
+      for (const [tabId, sectionTitle] of order) {
+        const el = document.getElementById(`tab-${tabId}`);
+        if (!el || !el.innerHTML.trim()) continue;
+        body += `<section class="page">${el.innerHTML}</section>`;
+      }
+      body += `
+        <div class="footer">
+          © Astro-Nepali ·
+          <a href="https://www.sandeepkafle.com.np">www.sandeepkafle.com.np</a>
+        </div>
+      `;
+      const doc = `<!DOCTYPE html>
+<html lang="${document.documentElement.lang || 'en'}">
+<head>
+  <meta charset="utf-8">
+  <title>Kundali — ${escapeHtml(name)}</title>
+  <style>${printCss}</style>
+</head>
+<body>${body}</body>
+</html>`;
+      const w = window.open('', '_blank');
+      if (!w) {
+        alert('Pop-up blocked. Please allow pop-ups to export PDF.');
+        return;
+      }
+      w.document.open();
+      w.document.write(doc);
+      w.document.close();
+      // Give the new window a moment to load images / fonts, then print
+      setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 350);
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+  }
 })();

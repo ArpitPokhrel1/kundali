@@ -2,7 +2,8 @@
 Family, Travel, Spirituality.
 
 Each topic returns a `TopicReading` with relevant houses, karakas, observations,
-and a short prose summary. Observations are bilingual.
+and a short prose summary. Findings are bilingual and now include an inline
+interpretation alongside each bare fact.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
@@ -27,6 +28,74 @@ class TopicReading:
     summary_ne: str
 
 
+# House themes — used to add "what it means" interpretation to each finding.
+HOUSE_THEMES = {
+    1:  ("self / body / vitality / overall direction",
+         "आफू / शरीर / ओज / जीवनको दिशा"),
+    2:  ("wealth / family / speech / food",
+         "धन / परिवार / वाणी / खाना"),
+    3:  ("courage / younger siblings / short trips / communication",
+         "साहस / कान्छा भाइबहिनी / छोटो यात्रा / सञ्चार"),
+    4:  ("home / mother / comfort / formal education / vehicles",
+         "घर / आमा / सुख / औपचारिक शिक्षा / सवारी"),
+    5:  ("intellect / children / creativity / romance / past-life merit",
+         "बुद्धि / सन्तान / सिर्जना / प्रेम / पुण्य"),
+    6:  ("daily work / service / illness / debts / enemies / obstacles",
+         "दैनिक काम / सेवा / रोग / ऋण / शत्रु / बाधा"),
+    7:  ("spouse / partnership / business / public dealings",
+         "जीवनसाथी / साझेदारी / व्यापार / जनसम्बन्ध"),
+    8:  ("hidden things / longevity / transformation / inheritance / research",
+         "गुप्त / दीर्घायु / रूपान्तरण / उत्तराधिकार / अनुसन्धान"),
+    9:  ("fortune / father / dharma / higher learning / long journeys",
+         "भाग्य / बुबा / धर्म / उच्च शिक्षा / लामो यात्रा"),
+    10: ("career / public role / status / reputation",
+         "करियर / सार्वजनिक भूमिका / प्रतिष्ठा"),
+    11: ("gains / friends / hopes / elder siblings / networks",
+         "लाभ / मित्र / आशा / दाजुदिदी / सम्पर्क"),
+    12: ("losses / expenses / foreign / sleep / liberation",
+         "हानि / खर्च / विदेश / निद्रा / मोक्ष"),
+}
+
+# What each karaka represents in plain language.
+KARAKA_ROLES = {
+    "Sun":     ("vitality, authority, fatherly influence",
+                "ओज, अधिकार, पिताको प्रभाव"),
+    "Moon":    ("mind, emotions, motherly influence",
+                "मन, भावना, आमाको प्रभाव"),
+    "Mars":    ("courage, energy, blood and muscle",
+                "साहस, ऊर्जा, रगत र मांसपेशी"),
+    "Mercury": ("intellect, speech, communication",
+                "बुद्धि, वाणी, सञ्चार"),
+    "Jupiter": ("wisdom, prosperity, dharma, children",
+                "ज्ञान, समृद्धि, धर्म, सन्तान"),
+    "Venus":   ("love, beauty, harmony, partnership",
+                "प्रेम, सौन्दर्य, सद्भाव, साझेदारी"),
+    "Saturn":  ("discipline, longevity, slow-built results",
+                "अनुशासन, दीर्घायु, ढिलो बनेको फल"),
+    "Rahu":    ("ambition, foreign things, the unconventional",
+                "महत्त्वाकाङ्क्षा, विदेशी कुरा, अपरम्परा"),
+    "Ketu":    ("detachment, depth, spiritual insight",
+                "वैराग्य, गहिराइ, आध्यात्मिक अन्तर्दृष्टि"),
+}
+
+# Dignity flavor — appended to a finding to flag how well the placement supports.
+DIGNITY_FLAVOR = {
+    "Exalted":     (" Strongly placed (exalted) — supports outcomes powerfully.",
+                    " स्थिति बलियो (उच्च) — फल जोडदार।"),
+    "Mooltrikona": (" Strongly placed (mooltrikona) — supports outcomes powerfully.",
+                    " स्थिति बलियो (मूलत्रिकोण) — फल जोडदार।"),
+    "Own":         (" Comfortably placed (own sign) — natural and supportive.",
+                    " आफ्नै राशिमा — स्वाभाविक र सहयोगी।"),
+    "Friend":      (" Friendly sign — moderately supportive.",
+                    " मित्र-राशिमा — मध्यम सहयोगी।"),
+    "Neutral":     ("", ""),
+    "Enemy":       (" Enemy sign — under stress; results take more effort.",
+                    " शत्रु-राशिमा — तनावमा; फलका लागि बढी मेहनत।"),
+    "Debilitated": (" Weakly placed (debilitated) — results come slowly or need cancellation rules.",
+                    " स्थिति कमजोर (नीच) — ढिलो फल वा नीचभङ्ग नियम आवश्यक।"),
+}
+
+
 def _house_of(rashi: int, lagna_rashi: int) -> int:
     return ((rashi - lagna_rashi) % 12) + 1
 
@@ -41,19 +110,6 @@ def _lord_of_house(lagna_rashi: int, house: int) -> str:
     return RASHI_LORDS[rashi]
 
 
-def _describe_lord(positions, lagna_rashi: int, lord: str, lord_of: int) -> tuple[str, str]:
-    """Return (en, ne) sentence describing where this lord sits."""
-    if lord not in positions:
-        return "", ""
-    p = positions[lord]
-    house = _house_of(p.rashi, lagna_rashi)
-    dign = dignity_of(lord, p.longitude)
-    en = (f"Lord of the {_ord(lord_of)} ({lord}) sits in the {_ord(house)} "
-          f"house ({dign}).")
-    ne = (f"{lord_of} औं भावको स्वामी ({lord}) {house} औं भावमा छ ({dign})।")
-    return en, ne
-
-
 def _ord(n: int) -> str:
     s = str(n)
     if 11 <= n % 100 <= 13:
@@ -61,14 +117,42 @@ def _ord(n: int) -> str:
     return s + {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
 
 
+def _describe_lord(positions, lagna_rashi: int, lord: str, lord_of: int) -> tuple[str, str]:
+    """Fact + inline interpretation: lord-of-house X is in house Y."""
+    if lord not in positions:
+        return "", ""
+    p = positions[lord]
+    house = _house_of(p.rashi, lagna_rashi)
+    dign = dignity_of(lord, p.longitude)
+    src_en, src_ne = HOUSE_THEMES[lord_of]
+    dst_en, dst_ne = HOUSE_THEMES[house]
+    flavor_en, flavor_ne = DIGNITY_FLAVOR.get(dign, ("", ""))
+
+    en = (f"<b>Lord of the {_ord(lord_of)} ({lord}) is in house {house}</b> "
+          f"({dign}) — matters of <i>{src_en}</i> express through "
+          f"<i>{dst_en}</i>.{flavor_en}")
+    ne = (f"<b>{lord_of} औं भावको स्वामी ({lord}) भाव {house} मा</b> "
+          f"({dign}) — <i>{src_ne}</i>का कुरा <i>{dst_ne}</i>मार्फत "
+          f"प्रकट हुन्छन्।{flavor_ne}")
+    return en, ne
+
+
 def _karaka_status(positions, lagna_rashi: int, planet: str) -> tuple[str, str]:
+    """Fact + inline interpretation: this karaka sits in house X."""
     if planet not in positions:
         return "", ""
     p = positions[planet]
     house = _house_of(p.rashi, lagna_rashi)
     dign = dignity_of(planet, p.longitude)
-    en = f"{planet} (significator) is in house {house}, {dign}."
-    ne = f"{planet} (कारक) भाव {house} मा, स्थिति: {dign}।"
+    role_en, role_ne = KARAKA_ROLES.get(planet, (planet, planet))
+    dst_en, dst_ne = HOUSE_THEMES[house]
+    flavor_en, flavor_ne = DIGNITY_FLAVOR.get(dign, ("", ""))
+
+    en = (f"<b>{planet} (significator of {role_en}) sits in house {house}</b> "
+          f"({dign}) — focuses {planet}'s energy on <i>{dst_en}</i>.{flavor_en}")
+    ne = (f"<b>{planet} ({role_ne}को कारक) भाव {house} मा</b> "
+          f"({dign}) — {planet}को ऊर्जा <i>{dst_ne}</i>मा "
+          f"केन्द्रित।{flavor_ne}")
     return en, ne
 
 
@@ -97,14 +181,26 @@ def _add_karaka_finding(findings_en, findings_ne, positions, lagna_rashi, planet
 
 
 def _scan_house_finding(findings_en, findings_ne, positions, lagna_rashi, house):
+    """Fact + inline interpretation: which planets sit in this house."""
     planets = _planets_in_house(positions, lagna_rashi, house)
-    if planets:
-        findings_en.append(
-            f"House {house} contains: {', '.join(planets)}."
-        )
-        findings_ne.append(
-            f"भाव {house} मा: {', '.join(planets)}।"
-        )
+    if not planets:
+        return
+    dst_en, dst_ne = HOUSE_THEMES[house]
+    # Briefly note what each planet brings to the house
+    bits_en = []
+    bits_ne = []
+    for p in planets:
+        role_en, role_ne = KARAKA_ROLES.get(p, (p, p))
+        bits_en.append(f"{p} ({role_en})")
+        bits_ne.append(f"{p} ({role_ne})")
+    findings_en.append(
+        f"<b>House {house} contains:</b> {', '.join(bits_en)} — "
+        f"these forces directly shape <i>{dst_en}</i>."
+    )
+    findings_ne.append(
+        f"<b>भाव {house} मा:</b> {', '.join(bits_ne)} — "
+        f"यिनै शक्तिहरूले <i>{dst_ne}</i>लाई सीधै आकार दिन्छन्।"
+    )
 
 
 def analyze_education(positions, lagna_rashi: int) -> TopicReading:

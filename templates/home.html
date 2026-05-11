@@ -121,6 +121,11 @@
 </div>
 
 <section id="result-area" style="display:none;">
+  <div style="display:flex;justify-content:flex-end;margin:8px 0;">
+    <button id="btn-export-pdf" type="button" class="btn secondary">
+      📄 {% if locale == 'ne' %}PDF निकाल्नुहोस्{% else %}Export as PDF{% endif %}
+    </button>
+  </div>
   <div id="result-tabs">
     <div class="tabs">
       <button class="tab-btn active" data-tab="summary">
