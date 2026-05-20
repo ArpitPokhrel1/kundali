@@ -40,7 +40,7 @@ app = Flask(
 
 BACKLINK_URL = "https://sandeepkafle.com.np"
 BACKLINK_TEXT = "sandeepkafle.com.np"
-SITE_DOMAIN = "astro.sandeepkafle.com.np"
+SITE_DOMAIN = "kundali.tarjun.com"
 
 
 @app.context_processor

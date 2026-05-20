@@ -5,20 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Astro-Nepali — Vedic Kundali / वैदिक कुण्डली{% endblock %}</title>
   <meta name="description" content="Free Vedic Janma Kundali generator with Drik &amp; Surya Siddhanta calculations, Nepali / English bilingual, panchanga, dasha, and educational explanations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='80' font-size='80'&gt;🪐&lt;/text&gt;&lt;/svg&gt;">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
 
 <header class="top-bar">
   <div class="top-bar-inner">
-    <a href="{{ url_for('home') }}" class="brand">
-      <span class="brand-mark">🪐</span>
+    <a href="{{ url_for('home') }}" class="brand" aria-label="Astro-Nepali home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" role="img">
+          <circle cx="24" cy="24" r="9"></circle>
+          <path d="M8 26c8-10 24-10 32 0"></path>
+          <path d="M11 31c8 6 18 7 29 1"></path>
+        </svg>
+      </span>
       <span class="brand-text">Astro-Nepali</span>
     </a>
 
-    <nav class="primary-nav">
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
       <a href="{{ url_for('home') }}" {% if request.endpoint == 'home' %}class="active"{% endif %}>
         {% if locale == 'ne' %}गणना{% else %}Compute{% endif %}
       </a>
@@ -30,38 +43,40 @@
       </a>
     </nav>
 
-    <div class="prefs">
-      <select id="theme-select" aria-label="Theme">
-        <option value="light" {% if theme=='light' %}selected{% endif %}>{% if locale=='ne' %}उज्यालो{% else %}Light{% endif %}</option>
-        <option value="dark"  {% if theme=='dark'  %}selected{% endif %}>{% if locale=='ne' %}अँध्यारो{% else %}Dark{% endif %}</option>
-        <option value="sepia" {% if theme=='sepia' %}selected{% endif %}>{% if locale=='ne' %}सेपिया{% else %}Sepia{% endif %}</option>
-      </select>
-      <select id="locale-select" aria-label="Language">
-        <option value="en" {% if locale=='en' %}selected{% endif %}>English</option>
-        <option value="ne" {% if locale=='ne' %}selected{% endif %}>नेपाली</option>
-      </select>
+    <div class="prefs" aria-label="Display preferences">
+      <label>
+        <span class="sr-only">Theme</span>
+        <select id="theme-select" aria-label="Theme">
+          <option value="light" {% if theme=='light' %}selected{% endif %}>{% if locale=='ne' %}उज्यालो{% else %}Light{% endif %}</option>
+          <option value="dark"  {% if theme=='dark'  %}selected{% endif %}>{% if locale=='ne' %}अँध्यारो{% else %}Dark{% endif %}</option>
+          <option value="sepia" {% if theme=='sepia' %}selected{% endif %}>{% if locale=='ne' %}सेपिया{% else %}Sepia{% endif %}</option>
+        </select>
+      </label>
+      <label>
+        <span class="sr-only">Language</span>
+        <select id="locale-select" aria-label="Language">
+          <option value="en" {% if locale=='en' %}selected{% endif %}>English</option>
+          <option value="ne" {% if locale=='ne' %}selected{% endif %}>नेपाली</option>
+        </select>
+      </label>
     </div>
   </div>
 
   <div class="backlink-strip">
     <span>{% if locale=='ne' %}यो साइट{% else %}A site by{% endif %}</span>
     <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener">{{ BACKLINK_TEXT }}</a>
-    <span class="dot">·</span>
+    <span class="dot">/</span>
     <span>{{ SITE_DOMAIN }}</span>
   </div>
 </header>
 
-<main class="page">
+<main class="page {% block page_class %}page-content{% endblock %}">
   {% block content %}{% endblock %}
 </main>
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <p>
-      <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener" class="footer-back">
-        ← {{ BACKLINK_TEXT }}
-      </a>
-    </p>
+    <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener" class="footer-back">{{ BACKLINK_TEXT }}</a>
     <p class="muted">
       {% if locale == 'ne' %}
         © {{ year }} • वैदिक कुण्डली — दृक् र सूर्य सिद्धान्त।
