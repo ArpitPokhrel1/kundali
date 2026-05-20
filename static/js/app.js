@@ -43,21 +43,6 @@
     localeSelect.addEventListener('change', event => setPref('locale', event.target.value));
   }
 
-  const navToggle = $('.nav-toggle');
-  if (navToggle) {
-    navToggle.addEventListener('click', () => {
-      const isOpen = document.body.classList.toggle('nav-open');
-      navToggle.setAttribute('aria-expanded', String(isOpen));
-    });
-  }
-
-  $$('.primary-nav a').forEach(link => {
-    link.addEventListener('click', () => {
-      document.body.classList.remove('nav-open');
-      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-
   const revealItems = $$('[data-reveal]');
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {

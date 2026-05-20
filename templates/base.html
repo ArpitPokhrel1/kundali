@@ -15,23 +15,12 @@
 
 <header class="top-bar">
   <div class="top-bar-inner">
-    <a href="{{ url_for('home') }}" class="brand" aria-label="Astro-Nepali home">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 48 48" role="img">
-          <circle cx="24" cy="24" r="9"></circle>
-          <path d="M8 26c8-10 24-10 32 0"></path>
-          <path d="M11 31c8 6 18 7 29 1"></path>
-        </svg>
-      </span>
+    <a href="{{ url_for('home') }}" class="brand">
+      <span class="brand-mark">🪐</span>
       <span class="brand-text">Astro-Nepali</span>
     </a>
 
-    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
-      <span></span>
-      <span></span>
-    </button>
-
-    <nav id="primary-nav" class="primary-nav" aria-label="Primary navigation">
+    <nav class="primary-nav">
       <a href="{{ url_for('home') }}" {% if request.endpoint == 'home' %}class="active"{% endif %}>
         {% if locale == 'ne' %}गणना{% else %}Compute{% endif %}
       </a>
@@ -43,40 +32,38 @@
       </a>
     </nav>
 
-    <div class="prefs" aria-label="Display preferences">
-      <label>
-        <span class="sr-only">Theme</span>
-        <select id="theme-select" aria-label="Theme">
-          <option value="light" {% if theme=='light' %}selected{% endif %}>{% if locale=='ne' %}उज्यालो{% else %}Light{% endif %}</option>
-          <option value="dark"  {% if theme=='dark'  %}selected{% endif %}>{% if locale=='ne' %}अँध्यारो{% else %}Dark{% endif %}</option>
-          <option value="sepia" {% if theme=='sepia' %}selected{% endif %}>{% if locale=='ne' %}सेपिया{% else %}Sepia{% endif %}</option>
-        </select>
-      </label>
-      <label>
-        <span class="sr-only">Language</span>
-        <select id="locale-select" aria-label="Language">
-          <option value="en" {% if locale=='en' %}selected{% endif %}>English</option>
-          <option value="ne" {% if locale=='ne' %}selected{% endif %}>नेपाली</option>
-        </select>
-      </label>
+    <div class="prefs">
+      <select id="theme-select" aria-label="Theme">
+        <option value="light" {% if theme=='light' %}selected{% endif %}>{% if locale=='ne' %}उज्यालो{% else %}Light{% endif %}</option>
+        <option value="dark"  {% if theme=='dark'  %}selected{% endif %}>{% if locale=='ne' %}अँध्यारो{% else %}Dark{% endif %}</option>
+        <option value="sepia" {% if theme=='sepia' %}selected{% endif %}>{% if locale=='ne' %}सेपिया{% else %}Sepia{% endif %}</option>
+      </select>
+      <select id="locale-select" aria-label="Language">
+        <option value="en" {% if locale=='en' %}selected{% endif %}>English</option>
+        <option value="ne" {% if locale=='ne' %}selected{% endif %}>नेपाली</option>
+      </select>
     </div>
   </div>
 
   <div class="backlink-strip">
     <span>{% if locale=='ne' %}यो साइट{% else %}A site by{% endif %}</span>
     <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener">{{ BACKLINK_TEXT }}</a>
-    <span class="dot">/</span>
+    <span class="dot">·</span>
     <span>{{ SITE_DOMAIN }}</span>
   </div>
 </header>
 
-<main class="page {% block page_class %}page-content{% endblock %}">
+<main class="page">
   {% block content %}{% endblock %}
 </main>
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener" class="footer-back">{{ BACKLINK_TEXT }}</a>
+    <p>
+      <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener" class="footer-back">
+        ← {{ BACKLINK_TEXT }}
+      </a>
+    </p>
     <p class="muted">
       {% if locale == 'ne' %}
         © {{ year }} • वैदिक कुण्डली — दृक् र सूर्य सिद्धान्त।
