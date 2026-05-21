@@ -2,7 +2,7 @@
 
 STRINGS = {
     "en": {
-        "app_title": "Astro-Nepali — Vedic Kundali",
+        "app_title": "Kundali Tarjun — Vedic Kundali",
         "form_birth_details": "Birth Details",
         "form_name": "Name",
         "form_date_ad": "Date (AD)",

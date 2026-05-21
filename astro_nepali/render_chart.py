@@ -105,14 +105,14 @@ def make_svg(lagna_rashi: int, planets_in_house: dict[int, list[str]]) -> str:
 
         # House number — small, top-corner-style
         parts.append(
-            f'<text x="{cx}" y="{cy - 22}" font-family="Segoe UI, sans-serif" '
-            f'font-size="11" fill="#888" text-anchor="middle">'
-            f'{"★ Lagna" if is_lagna else f"H{h}"}</text>'
+            f'<text x="{cx}" y="{cy - 22}" font-family="Anek Devanagari, Mukta, sans-serif" '
+            f'font-size="11" fill="#7b6b5b" text-anchor="middle">'
+            f'{"Lagna" if is_lagna else f"H{h}"}</text>'
         )
         # Sign (Devanagari + English short)
         parts.append(
-            f'<text x="{cx}" y="{cy - 5}" font-family="Mangal, Nirmala UI, '
-            f'Segoe UI, sans-serif" font-size="14" fill="#4a148c" '
+            f'<text x="{cx}" y="{cy - 5}" font-family="Anek Devanagari, Mukta, '
+            f'Nirmala UI, sans-serif" font-size="14" fill="#173a63" '
             f'font-weight="bold" text-anchor="middle">'
             f'{rashi_dev} ({rashi_en})</text>'
         )
@@ -120,8 +120,8 @@ def make_svg(lagna_rashi: int, planets_in_house: dict[int, list[str]]) -> str:
         if planets:
             txt = "  ".join(PLANET_ABBREV[p] for p in planets)
             parts.append(
-                f'<text x="{cx}" y="{cy + 18}" font-family="Segoe UI, sans-serif" '
-                f'font-size="15" fill="#bf360c" font-weight="bold" '
+                f'<text x="{cx}" y="{cy + 18}" font-family="Anek Devanagari, Mukta, sans-serif" '
+                f'font-size="15" fill="#b85f24" font-weight="bold" '
                 f'text-anchor="middle">{txt}</text>'
             )
 

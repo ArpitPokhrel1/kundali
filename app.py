@@ -1,4 +1,4 @@
-"""Flask web app for Astro-Nepali — astro.sandeepkafle.com.np.
+"""Flask web app for Kundali Tarjun.
 
 Run dev:    python app.py            (from inside web/)
 Run prod:   gunicorn app:app
@@ -38,10 +38,10 @@ app = Flask(
     static_folder="static",
 )
 
-BACKLINK_URL = "https://sandeepkafle.com.np"
-BACKLINK_TEXT = "sandeepkafle.com.np"
+BACKLINK_URL = "https://kundali.tarjun.com"
+BACKLINK_TEXT = "Kundali Tarjun"
 SITE_DOMAIN = "kundali.tarjun.com"
-ASSET_VERSION = "glass-20260521-01"
+ASSET_VERSION = "hindu-minimal-20260521-01"
 
 
 @app.context_processor

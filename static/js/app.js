@@ -1,4 +1,4 @@
-// Astro-Nepali glass front end. Keeps the original API and DOM contracts intact.
+// Kundali Tarjun front end. Keeps the original API and DOM contracts intact.
 (function () {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -300,7 +300,7 @@
     const printCss = `
       @page { size: A4; margin: 16mm 14mm; }
       body {
-        font-family: "Plus Jakarta Sans", "Noto Sans Devanagari", ui-sans-serif, system-ui, sans-serif;
+        font-family: "Anek Devanagari", "Mukta", "Noto Sans Devanagari", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
         color: #17130f;
         font-size: 12px;
         line-height: 1.55;
@@ -337,7 +337,7 @@
       body += `<section class="page"><h2>${escapeHtml(sectionTitle)}</h2>${element.innerHTML}</section>`;
     });
 
-    body += '<div class="footer">Astro-Nepali - kundali.tarjun.com</div>';
+    body += '<div class="footer">Kundali Tarjun - kundali.tarjun.com</div>';
 
     const doc = `<!doctype html><html lang="${document.documentElement.lang || 'en'}"><head><meta charset="utf-8"><title>Kundali - ${escapeHtml(name)}</title><style>${printCss}</style></head><body>${body}</body></html>`;
     const printWindow = window.open('', '_blank');

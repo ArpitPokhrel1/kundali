@@ -26,6 +26,8 @@ class TopicReading:
     findings_ne: list[str]
     summary_en: str
     summary_ne: str
+    mixture_en: list[str] = field(default_factory=list)
+    mixture_ne: list[str] = field(default_factory=list)
 
 
 # House themes — used to add "what it means" interpretation to each finding.
@@ -78,6 +80,26 @@ KARAKA_ROLES = {
                 "वैराग्य, गहिराइ, आध्यात्मिक अन्तर्दृष्टि"),
 }
 
+PLANET_BEHAVIOR = {
+    "Sun":     ("identity, authority, visibility", "पहिचान, अधिकार, देखिने भूमिका"),
+    "Moon":    ("emotional rhythm, care, adaptation", "भावनात्मक लय, हेरचाह, अनुकूलन"),
+    "Mars":    ("drive, conflict, decisive action", "जोश, संघर्ष, निर्णायक कर्म"),
+    "Mercury": ("analysis, speech, trade, learning", "विश्लेषण, वाणी, व्यापार, सिकाइ"),
+    "Jupiter": ("growth, ethics, protection, counsel", "विकास, नीति, संरक्षण, सल्लाह"),
+    "Venus":   ("relationship, comfort, aesthetics", "सम्बन्ध, सुख, सौन्दर्य"),
+    "Saturn":  ("delay, discipline, endurance", "ढिलाइ, अनुशासन, धैर्य"),
+    "Rahu":    ("ambition, foreignness, disruption", "महत्त्वाकाङ्क्षा, विदेशीपन, असामान्यता"),
+    "Ketu":    ("detachment, depth, inward focus", "वैराग्य, गहिराइ, भित्री ध्यान"),
+}
+
+HOUSE_GROUPS = {
+    "kendra": ((1, 4, 7, 10), "kendra/angular house: visible, strong, practical", "केन्द्र भाव: देखिने, बलियो, व्यवहारिक"),
+    "trikona": ((1, 5, 9), "trikona/trine: dharma, ease, talent", "त्रिकोण भाव: धर्म, सहजता, प्रतिभा"),
+    "dusthana": ((6, 8, 12), "dusthana: pressure, repair, transformation", "दुस्थान: दबाब, सुधार, रूपान्तरण"),
+    "upachaya": ((3, 6, 10, 11), "upachaya: improves through effort and age", "उपचय: प्रयास र उमेरसँग सुध्रिने"),
+    "maraka": ((2, 7), "maraka/material house: attachment, value, pressure", "मारक/भौतिक भाव: लगाव, मूल्य, दबाब"),
+}
+
 # Dignity flavor — appended to a finding to flag how well the placement supports.
 DIGNITY_FLAVOR = {
     "Exalted":     (" Strongly placed (exalted) — supports outcomes powerfully.",
@@ -115,6 +137,112 @@ def _ord(n: int) -> str:
     if 11 <= n % 100 <= 13:
         return f"{n}th"
     return s + {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
+
+
+def _house_group_note(house: int) -> tuple[str, str]:
+    notes_en = []
+    notes_ne = []
+    for houses, en, ne in HOUSE_GROUPS.values():
+        if house in houses:
+            notes_en.append(en)
+            notes_ne.append(ne)
+    return "; ".join(notes_en), "; ".join(notes_ne)
+
+
+def _placement_pressure(planets: list[str]) -> tuple[str, str]:
+    if not planets:
+        return (
+            "No planet occupies the house directly, so the house lord becomes the main judge.",
+            "यो भावमा ग्रह प्रत्यक्ष बसेको छैन, त्यसैले भाव-स्वामी मुख्य निर्णायक हुन्छ।",
+        )
+    benefics = [p for p in planets if p in BENEFICS_NATURAL]
+    malefics = [p for p in planets if p in MALEFICS_NATURAL]
+    if benefics and malefics:
+        return (
+            "Benefic and malefic forces mix here: support exists, but results require discipline and timing.",
+            "यहाँ शुभ र पाप दुवै शक्ति मिसिएका छन्: सहयोग छ, तर फलका लागि अनुशासन र समय चाहिन्छ।",
+        )
+    if benefics:
+        return (
+            "Mostly benefic influence: the house tends to produce smoother, more supportive results.",
+            "मुख्यतः शुभ प्रभाव: यो भावले तुलनात्मक रूपमा सहज र सहयोगी फल दिन्छ।",
+        )
+    if malefics:
+        return (
+            "Mostly malefic influence: the house becomes active, demanding, and result-oriented after effort.",
+            "मुख्यतः पाप प्रभाव: यो भाव सक्रिय, माग गर्ने, र प्रयासपछि फलदायी हुन्छ।",
+        )
+    return (
+        "The planet mix is neutral or technical; judge dignity and lordship carefully.",
+        "ग्रह-मिश्रण तटस्थ वा प्राविधिक छ; दशा र स्वामित्व ध्यानपूर्वक हेर्नुपर्छ।",
+    )
+
+
+def _build_mixture_findings(positions, lagna_rashi: int, trd: TopicReading) -> tuple[list[str], list[str]]:
+    """Summarize how house contents, lords, and karakas combine for a topic."""
+    en, ne = [], []
+    for house in trd.houses:
+        planets = _planets_in_house(positions, lagna_rashi, house)
+        theme_en, theme_ne = HOUSE_THEMES[house]
+        group_en, group_ne = _house_group_note(house)
+        pressure_en, pressure_ne = _placement_pressure(planets)
+        if planets:
+            planet_mix_en = ", ".join(
+                f"{p} ({PLANET_BEHAVIOR.get(p, KARAKA_ROLES.get(p, (p, p)))[0]})"
+                for p in planets
+            )
+            planet_mix_ne = ", ".join(
+                f"{p} ({PLANET_BEHAVIOR.get(p, KARAKA_ROLES.get(p, (p, p)))[1]})"
+                for p in planets
+            )
+            en.append(
+                f"<b>House {house}</b> carries {planet_mix_en}. This directly colors "
+                f"<i>{theme_en}</i>. {pressure_en} <span class='small'>{group_en}</span>"
+            )
+            ne.append(
+                f"<b>भाव {house}</b> मा {planet_mix_ne} छ। यसले <i>{theme_ne}</i>लाई "
+                f"सीधै रङ्गाउँछ। {pressure_ne} <span class='small'>{group_ne}</span>"
+            )
+        else:
+            en.append(
+                f"<b>House {house}</b> is empty; read its lord and aspects for prediction. "
+                f"It still represents <i>{theme_en}</i>. <span class='small'>{group_en}</span>"
+            )
+            ne.append(
+                f"<b>भाव {house}</b> खाली छ; भविष्यवाणीका लागि यसको स्वामी र दृष्टि हेर्नुपर्छ। "
+                f"यसले अझै <i>{theme_ne}</i> जनाउँछ। <span class='small'>{group_ne}</span>"
+            )
+
+        lord = _lord_of_house(lagna_rashi, house)
+        if lord in positions:
+            lord_house = _house_of(positions[lord].rashi, lagna_rashi)
+            lord_theme_en, lord_theme_ne = HOUSE_THEMES[lord_house]
+            dignity = dignity_of(lord, positions[lord].longitude)
+            flavor_en, flavor_ne = DIGNITY_FLAVOR.get(dignity, ("", ""))
+            en.append(
+                f"<b>{_ord(house)} lord {lord}</b> sits in house {lord_house}; "
+                f"therefore <i>{theme_en}</i> is delivered through <i>{lord_theme_en}</i>.{flavor_en}"
+            )
+            ne.append(
+                f"<b>भाव {house} को स्वामी {lord}</b> भाव {lord_house} मा छ; "
+                f"त्यसैले <i>{theme_ne}</i>का फल <i>{lord_theme_ne}</i>मार्फत आउँछन्।{flavor_ne}"
+            )
+
+    karaka_bits_en = []
+    karaka_bits_ne = []
+    for planet in trd.karakas:
+        if planet not in positions:
+            continue
+        house = _house_of(positions[planet].rashi, lagna_rashi)
+        theme_en, theme_ne = HOUSE_THEMES[house]
+        role_en, role_ne = KARAKA_ROLES.get(planet, (planet, planet))
+        karaka_bits_en.append(f"{planet} ({role_en}) in house {house} links the topic to {theme_en}")
+        karaka_bits_ne.append(f"{planet} ({role_ne}) भाव {house} मा भएर विषयलाई {theme_ne}सँग जोड्छ")
+    if karaka_bits_en:
+        en.append("<b>Karaka blend:</b> " + "; ".join(karaka_bits_en) + ".")
+        ne.append("<b>कारक मिश्रण:</b> " + "; ".join(karaka_bits_ne) + "।")
+
+    return en, ne
 
 
 def _describe_lord(positions, lagna_rashi: int, lord: str, lord_of: int) -> tuple[str, str]:
@@ -236,7 +364,7 @@ def analyze_education(positions, lagna_rashi: int) -> TopicReading:
         "सहज बनाउँछ।"
     )
     return TopicReading(
-        "education", "Education", "शिक्षा", "🎓",
+        "education", "Education", "शिक्षा", "ED",
         [4, 5, 9], ["Mercury", "Jupiter"],
         fe, fn, summary_en, summary_ne,
     )
@@ -282,7 +410,7 @@ def analyze_health(positions, lagna_rashi: int) -> TopicReading:
         "स्वस्थ जीवनको आधार।"
     )
     return TopicReading(
-        "health", "Health", "स्वास्थ्य", "❤️",
+        "health", "Health", "स्वास्थ्य", "HE",
         [1, 6, 8, 12], ["Sun", "Moon", "Mars", "Saturn"],
         fe, fn, summary_en, summary_ne,
     )
@@ -340,7 +468,7 @@ def analyze_career(positions, lagna_rashi: int) -> TopicReading:
         "करियर क्षेत्रको सबभन्दा बलियो सङ्केत दिन्छ।"
     )
     return TopicReading(
-        "career", "Career & Employment", "करियर र रोजगार", "💼",
+        "career", "Career & Employment", "करियर र रोजगार", "CR",
         [6, 10, 11], ["Sun", "Saturn", "Mercury", "Jupiter"],
         fe, fn, summary_en, summary_ne,
     )
@@ -380,7 +508,7 @@ def analyze_wealth(positions, lagna_rashi: int) -> TopicReading:
         "स्वामीहरूको सम्बन्धले विभिन्न धन योग बनाउँछन्।"
     )
     return TopicReading(
-        "wealth", "Wealth & Finance", "धन र वित्त", "💰",
+        "wealth", "Wealth & Finance", "धन र वित्त", "FI",
         [2, 5, 9, 11], ["Jupiter", "Venus"],
         fe, fn, summary_en, summary_ne,
     )
@@ -429,7 +557,7 @@ def analyze_marriage(positions, lagna_rashi: int) -> TopicReading:
         "विवाहको गहन अध्ययनमा D9 नवांश पनि हेरिन्छ।"
     )
     return TopicReading(
-        "marriage", "Marriage & Partnership", "विवाह र साझेदारी", "💍",
+        "marriage", "Marriage & Partnership", "विवाह र साझेदारी", "MR",
         [2, 7, 8, 12], ["Venus", "Jupiter"],
         fe, fn, summary_en, summary_ne,
     )
@@ -456,7 +584,7 @@ def analyze_family(positions, lagna_rashi: int) -> TopicReading:
         "(भाइ)।"
     )
     return TopicReading(
-        "family", "Family & Children", "परिवार र सन्तान", "👪",
+        "family", "Family & Children", "परिवार र सन्तान", "FA",
         [3, 4, 5, 9, 11], ["Sun", "Moon", "Mars", "Jupiter"],
         fe, fn, summary_en, summary_ne,
     )
@@ -488,7 +616,7 @@ def analyze_travel(positions, lagna_rashi: int) -> TopicReading:
         "गति-कारक; राहु विदेशी र अपरम्परागत कुराको कारक।"
     )
     return TopicReading(
-        "travel", "Travel & Foreign", "यात्रा र विदेश", "✈️",
+        "travel", "Travel & Foreign", "यात्रा र विदेश", "TR",
         [3, 9, 12], ["Moon", "Rahu"],
         fe, fn, summary_en, summary_ne,
     )
@@ -520,7 +648,7 @@ def analyze_spirituality(positions, lagna_rashi: int) -> TopicReading:
         "गुरु धर्मको कारक; केतु मोक्षको; शनि तपस्याको।"
     )
     return TopicReading(
-        "spirituality", "Spirituality & Dharma", "अध्यात्म र धर्म", "🕉️",
+        "spirituality", "Spirituality & Dharma", "अध्यात्म र धर्म", "SP",
         [5, 8, 9, 12], ["Jupiter", "Ketu", "Saturn"],
         fe, fn, summary_en, summary_ne,
     )
@@ -528,7 +656,7 @@ def analyze_spirituality(positions, lagna_rashi: int) -> TopicReading:
 
 def analyze_all(positions, lagna_rashi: int) -> list[TopicReading]:
     """Run every topic analyzer in display order."""
-    return [
+    readings = [
         analyze_education(positions, lagna_rashi),
         analyze_health(positions, lagna_rashi),
         analyze_career(positions, lagna_rashi),
@@ -538,3 +666,8 @@ def analyze_all(positions, lagna_rashi: int) -> list[TopicReading]:
         analyze_travel(positions, lagna_rashi),
         analyze_spirituality(positions, lagna_rashi),
     ]
+    for reading in readings:
+        reading.mixture_en, reading.mixture_ne = _build_mixture_findings(
+            positions, lagna_rashi, reading,
+        )
+    return readings

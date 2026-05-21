@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Astro-Nepali — Vedic Kundali / वैदिक कुण्डली{% endblock %}</title>
+  <title>{% block title %}Kundali Tarjun — Vedic Kundali / वैदिक कुण्डली{% endblock %}</title>
   <meta name="description" content="Free Vedic Janma Kundali generator with Drik &amp; Surya Siddhanta calculations, Nepali / English bilingual, panchanga, dasha, and educational explanations.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Mukta:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v={{ ASSET_VERSION }}">
   {% block extra_head %}{% endblock %}
 </head>
@@ -23,7 +23,7 @@
           <path d="M26.4 13.5C21.5 8.4 10.7 7.3 5.5 11.9c-1.3 1.1-1 2.2.6 2.5 3.3.6 9.8-.8 15.2-3.3"></path>
         </svg>
       </span>
-      <span class="brand-text">Astro-Nepali</span>
+      <span class="brand-text">Kundali Tarjun</span>
     </a>
 
     <nav class="primary-nav">
@@ -52,8 +52,7 @@
   </div>
 
   <div class="backlink-strip">
-    <span>{% if locale=='ne' %}यो साइट{% else %}A site by{% endif %}</span>
-    <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener">{{ BACKLINK_TEXT }}</a>
+    <span>{% if locale=='ne' %}सादा वैदिक कुण्डली कार्यक्षेत्र{% else %}Minimal Vedic Kundali workspace{% endif %}</span>
     <span class="dot">·</span>
     <span>{{ SITE_DOMAIN }}</span>
   </div>
@@ -66,9 +65,7 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <p>
-      <a href="{{ BACKLINK_URL }}" target="_blank" rel="noopener" class="footer-back">
-        ← {{ BACKLINK_TEXT }}
-      </a>
+      <span class="footer-back">Kundali Tarjun</span>
     </p>
     <p class="muted">
       {% if locale == 'ne' %}

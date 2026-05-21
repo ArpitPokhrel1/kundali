@@ -1,5 +1,6 @@
 """HTML renderers for the GUI's QTextBrowser tabs (theme-aware, educational)."""
 from __future__ import annotations
+from datetime import date
 
 from .labels import (
     RASHIS, NAKSHATRAS, NEPALI_MONTHS, to_nepali_digits,
@@ -19,7 +20,7 @@ from . import calendar_bs, render_chart, dasha as dasha_mod
 
 CSS_TEMPLATE = """
 <style>
-  body {{ font-family: 'Segoe UI', 'Mangal', 'Nirmala UI', Arial, sans-serif;
+  body {{ font-family: 'Anek Devanagari', 'Mukta', 'Noto Sans Devanagari', 'Nirmala UI', sans-serif;
          font-size: 13px; color: {text}; line-height: 1.6; background: {bg}; }}
   h2 {{ color: {accent}; border-bottom: 2px solid {accent_pale};
        padding-bottom: 4px; margin-top: 18px; }}
@@ -90,7 +91,7 @@ def _ad_with_bs(ad_date) -> str:
 EDU_KUNDALI = {
     "en": """
     <div class='edu'>
-      <h4>📜 What is a Janma Kundali?</h4>
+      <h4>What is a Janma Kundali?</h4>
       <p>The <b>Janma Kundali</b> ('birth chart') is a snapshot of the sky at
       the moment you were born, drawn as a square divided into 12 sections.
       Each section is a <b>house (bhava)</b> representing one area of life —
@@ -115,7 +116,7 @@ EDU_KUNDALI = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>📜 जन्म कुण्डली के हो?</h4>
+      <h4>जन्म कुण्डली के हो?</h4>
       <p><b>जन्म कुण्डली</b> भनेको तपाईं जन्मेको बेला आकाश कस्तो थियो
       भन्ने तस्बिर हो। यो एउटा वर्ग खाका हो, जसलाई १२ टुक्रामा बाँडिएको
       हुन्छ। हरेक टुक्रालाई <b>भाव</b> भनिन्छ — एउटा भावले जीवनको एउटा
@@ -145,7 +146,7 @@ EDU_KUNDALI = {
 EDU_PANCHANGA = {
     "en": """
     <div class='edu'>
-      <h4>🕉️ What is the Panchanga?</h4>
+      <h4>What is the Panchanga?</h4>
       <p><b>Panchanga</b> means 'five limbs'. It is the Vedic way of
       describing the QUALITY of a moment in time, using five components:</p>
       <ul>
@@ -170,7 +171,7 @@ EDU_PANCHANGA = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>🕉️ पञ्चाङ्ग के हो?</h4>
+      <h4>पञ्चाङ्ग के हो?</h4>
       <p><b>पञ्चाङ्ग</b> को अर्थ हो ‘पाँच अङ्ग’। एउटा क्षणको
       ‘गुण’ कस्तो छ भनेर वैदिक परम्पराले पाँच कुराबाट हेर्छ:</p>
       <ul>
@@ -201,7 +202,7 @@ EDU_PANCHANGA = {
 EDU_HOUSES = {
     "en": """
     <div class='edu'>
-      <h4>🏠 The 12 Houses (Bhavas) — what they cover</h4>
+      <h4>The 12 Houses (Bhavas) — what they cover</h4>
       <p>Every house is a department of life. Whichever planets sit in a
       house — and whichever sign occupies it — color what happens in that
       department. Quick map:</p>
@@ -227,7 +228,7 @@ EDU_HOUSES = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>🏠 १२ भाव — कुन भावले के बुझाउँछ</h4>
+      <h4>१२ भाव — कुन भावले के बुझाउँछ</h4>
       <p>हरेक भाव जीवनको एउटा क्षेत्र हो। त्यस भावमा बसेको ग्रह र
       त्यहाँको राशिले त्यस क्षेत्रलाई रङ्गिन्छ। द्रुत नक्शा:</p>
       <ul>
@@ -502,7 +503,7 @@ def render_compare(result, t: T, theme: str = "light") -> str:
 EDU_DASHA = {
     "en": """
     <div class='edu'>
-      <h4>⏳ What is the Vimshottari Dasha?</h4>
+      <h4>What is the Vimshottari Dasha?</h4>
       <p>Vimshottari is a 120-year cycle of <b>nine planetary periods</b>
       called <i>Mahadashas</i>. The fixed order is: Ketu → Venus → Sun →
       Moon → Mars → Rahu → Jupiter → Saturn → Mercury, with periods of 7,
@@ -517,7 +518,7 @@ EDU_DASHA = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>⏳ विंशोत्तरी दशा के हो?</h4>
+      <h4>विंशोत्तरी दशा के हो?</h4>
       <p>विंशोत्तरी १२० वर्षको चक्र हो — नौ ग्रहीय अवधि (<i>महादशा</i>)
       हरूको। यिनको क्रम तय छ: केतु → शुक्र → सूर्य → चन्द्र → मङ्गल → राहु
       → बृहस्पति → शनि → बुध। अवधि क्रमशः ७, २०, ६, १०, ७, १८, १६, १९, र
@@ -795,7 +796,7 @@ def _explanation_ne(result, theme: str) -> str:
 EDU_D9 = {
     "en": """
     <div class='edu'>
-      <h4>♉ What is the D9 Navamsha?</h4>
+      <h4>What is the D9 Navamsha?</h4>
       <p>Each rashi (30°) is divided into 9 equal parts of 3°20'. The
       <b>Navamsha</b> chart (D9) shows where each planet sits in this finer
       classification. Classical use: marriage and partnership analysis;
@@ -810,7 +811,7 @@ EDU_D9 = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>♉ D9 नवांश के हो?</h4>
+      <h4>D9 नवांश के हो?</h4>
       <p>हरेक राशि (३०°) लाई ९ बराबर भागमा (३°२०′ प्रत्येक) बाँडिन्छ।
       <b>नवांश</b> कुण्डली (D9) ले हरेक ग्रह यस सूक्ष्म वर्गीकरणमा कहाँ
       छ देखाउँछ। शास्त्रीय प्रयोग: विवाह र साझेदारीको अध्ययन; ग्रहको
@@ -889,7 +890,7 @@ def render_d9(result, t: T, theme: str = "light", chart_mode: str = "auto") -> s
 EDU_ANTAR = {
     "en": """
     <div class='edu'>
-      <h4>⏳ Antardasha — sub-periods inside a Mahadasha</h4>
+      <h4>Antardasha — sub-periods inside a Mahadasha</h4>
       <p>Each Mahadasha is divided into 9 <b>Antardashas</b> (also called
       Bhuktis). The order starts with the Mahadasha's own lord, then proceeds
       through the standard Vimshottari sequence. Duration of each antardasha:
@@ -902,7 +903,7 @@ EDU_ANTAR = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>⏳ अन्तरदशा — महादशाभित्रको उप-अवधि</h4>
+      <h4>अन्तरदशा — महादशाभित्रको उप-अवधि</h4>
       <p>हरेक महादशालाई ९ <b>अन्तरदशा</b> (भुक्ति पनि भनिन्छ) मा बाँडिन्छ।
       क्रम महादशाकै स्वामीबाट सुरु हुन्छ, अनि विंशोत्तरीको मानक क्रममा।
       हरेकको अवधि: (महादशा_वर्ष × अन्तर_स्वामी_वर्ष) ÷ १२०।</p>
@@ -982,7 +983,7 @@ def render_antardasha(result, t: T, theme: str = "light") -> str:
 EDU_YOGAS = {
     "en": """
     <div class='edu'>
-      <h4>✨ Yogas — special planet combinations in your chart</h4>
+      <h4>Yogas — special planet combinations in your chart</h4>
       <p>A <b>yoga</b> is a specific arrangement of planets that classical
       texts say produces a particular result. Below is every yoga we could
       detect from your placements. Yogas don't act in isolation — they
@@ -995,7 +996,7 @@ EDU_YOGAS = {
     """,
     "ne": """
     <div class='edu'>
-      <h4>✨ योग — तपाईंको कुण्डलीमा देखिने विशेष ग्रह-संयोजन</h4>
+      <h4>योग — तपाईंको कुण्डलीमा देखिने विशेष ग्रह-संयोजन</h4>
       <p><b>योग</b> भनेको ग्रहहरूको त्यस्तो संयोजन हो जसले शास्त्र अनुसार
       खास फल दिन्छ। तल तपाईंको ग्रह-स्थानबाट देखिएका सबै योग छन्। योगहरू
       एक्लै काम गर्दैनन् — एक–अर्कोलाई बल/कमजोर पार्न वा रद्द पनि गर्न
@@ -1037,6 +1038,66 @@ def render_yogas(result, t: T, theme: str = "light") -> str:
 # TOPICS TAB — Education / Health / Career / etc.
 # ============================================================================
 
+def _age_years(birth_local) -> int | None:
+    try:
+        born = birth_local.date()
+        today = date.today()
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+    except Exception:
+        return None
+
+
+AGE_STAGE_EN = [
+    (17, "Foundation stage: keep readings educational, non-fatalistic, and focused on study habits, health rhythm, and family guidance."),
+    (24, "Emerging adult stage: emphasize skill-building, career direction, relationship maturity, and financial basics."),
+    (34, "Formation stage: decisions around work, partnership, wealth-building, and relocation carry more practical weight."),
+    (49, "Consolidation stage: read for leadership, family responsibility, health maintenance, and durable reputation."),
+    (200, "Legacy stage: emphasize health rhythm, dharma, mentoring, spiritual practice, and wealth preservation."),
+]
+
+AGE_STAGE_NE = [
+    (17, "आधार चरण: पठनलाई शिक्षामूलक, गैर-भाग्यवादि, अध्ययन बानी, स्वास्थ्य लय, र परिवारिक मार्गदर्शनमा केन्द्रित राख्नुहोस्।"),
+    (24, "युवा-वयस्क चरण: सीप, करियर दिशा, सम्बन्ध परिपक्वता, र वित्तीय आधारमा जोड दिनुहोस्।"),
+    (34, "निर्माण चरण: काम, साझेदारी, धन-सञ्चय, र स्थान परिवर्तनका निर्णयहरू व्यवहारिक रूपमा महत्त्वपूर्ण हुन्छन्।"),
+    (49, "स्थिरीकरण चरण: नेतृत्व, परिवारिक जिम्मेवारी, स्वास्थ्य हेरचाह, र दीर्घ प्रतिष्ठालाई प्राथमिकता दिनुहोस्।"),
+    (200, "विरासत चरण: स्वास्थ्य लय, धर्म, मार्गदर्शन, आध्यात्मिक अभ्यास, र सम्पत्ति संरक्षणमा जोड दिनुहोस्।"),
+]
+
+TOPIC_AGE_FOCUS_EN = {
+    "education": "For this age, education means both formal learning and the skill pattern that keeps improving the chart.",
+    "health": "For this age, read health as a practical rhythm: sleep, food, recovery, stress, and prevention.",
+    "career": "For this age, career prediction should be judged through readiness, daily discipline, and the active dasha period.",
+    "wealth": "For this age, wealth means earning capacity, savings behavior, risk appetite, and family obligations.",
+    "marriage": "For this age, relationship readings should separate attraction, commitment, family pressure, and timing.",
+    "family": "For this age, family impact includes parents, siblings, children, household stability, and emotional duty.",
+    "travel": "For this age, travel indicators show movement for study, career, marriage, retreat, or foreign settlement.",
+    "spirituality": "For this age, spirituality is read as discipline, meaning, study, service, and inner steadiness.",
+}
+
+TOPIC_AGE_FOCUS_NE = {
+    "education": "यो उमेरमा शिक्षा भनेको औपचारिक पढाइसँगै निरन्तर सुध्रिने सीप-ढाँचा पनि हो।",
+    "health": "यो उमेरमा स्वास्थ्यलाई निद्रा, खाना, पुनर्स्थापना, तनाव, र रोकथामको व्यवहारिक लयका रूपमा पढ्नुहोस्।",
+    "career": "यो उमेरमा करियर भविष्यवाणी तयारी, दैनिक अनुशासन, र चालू दशा-अवधिबाट जाँच्नुपर्छ।",
+    "wealth": "यो उमेरमा धन भनेको कमाउने क्षमता, बचत बानी, जोखिम लिने शैली, र परिवारिक दायित्व हो।",
+    "marriage": "यो उमेरमा सम्बन्ध पठनले आकर्षण, प्रतिबद्धता, परिवारिक दबाब, र समयलाई छुट्याउनुपर्छ।",
+    "family": "यो उमेरमा परिवार प्रभावमा आमाबुबा, भाइबहिनी, सन्तान, घरको स्थिरता, र भावनात्मक दायित्व पर्छ।",
+    "travel": "यो उमेरमा यात्रा सङ्केतले पढाइ, करियर, विवाह, विश्राम, वा विदेश बसाइँको गति देखाउँछ।",
+    "spirituality": "यो उमेरमा अध्यात्म अनुशासन, अर्थ, अध्ययन, सेवा, र भित्री स्थिरताका रूपमा पढिन्छ।",
+}
+
+
+def _age_context(result, key: str, locale: str) -> str:
+    age = _age_years(result.birth_local)
+    if age is None:
+        return ""
+    stages = AGE_STAGE_NE if locale == "ne" else AGE_STAGE_EN
+    stage_note = next(note for limit, note in stages if age <= limit)
+    topic_focus = (TOPIC_AGE_FOCUS_NE if locale == "ne" else TOPIC_AGE_FOCUS_EN).get(key, "")
+    age_label = f"{to_nepali_digits(age)} वर्ष" if locale == "ne" else f"{age} years old"
+    prefix = "उमेर सन्दर्भ" if locale == "ne" else "Age context"
+    return f"<b>{prefix}: {age_label}.</b> {stage_note} {topic_focus}"
+
+
 def render_topics(result, t: T, theme: str = "light") -> str:
     title = ("जीवनका विषयहरू (विशेष विश्लेषण)"
              if t.locale == "ne" else "Life Topics (Personalized)")
@@ -1052,11 +1113,8 @@ def render_topics(result, t: T, theme: str = "light") -> str:
     for trd in result.topics:
         name = trd.name_ne if t.locale == "ne" else trd.name_en
         nav_links.append(
-            f"<a href='#topic-{trd.key}' style='display:inline-block;"
-            f"margin:4px 6px 4px 0;padding:6px 12px;border-radius:4px;"
-            f"background:#ede7f6;color:#4a148c;text-decoration:none;"
-            f"font-weight:600;font-size:13px;border:1px solid #d1c4e9;'>"
-            f"{trd.icon} {name}</a>"
+            f"<a class='topic-nav-link' href='#topic-{trd.key}'>"
+            f"<span class='topic-code'>{trd.icon}</span>{name}</a>"
         )
 
     blocks = []
@@ -1067,6 +1125,14 @@ def render_topics(result, t: T, theme: str = "light") -> str:
 
         houses_label = "मुख्य भाव" if t.locale == "ne" else "Key houses"
         karaka_label = "कारक" if t.locale == "ne" else "Karakas"
+        age_label = "उमेर अनुसार" if t.locale == "ne" else "Age-aware focus"
+        method_label = "पठन विधि" if t.locale == "ne" else "Reading method"
+        mixture_label = "भाव + ग्रह मिश्रण" if t.locale == "ne" else "House + planet mixture"
+        signals_label = ("यो कुण्डलीमा देखिएका सङ्केतहरू"
+                         if t.locale == "ne" else "Observed chart signals")
+        summary_label = "निष्कर्ष" if t.locale == "ne" else "Interpretation summary"
+        age_context = _age_context(result, trd.key, t.locale)
+        mixtures = trd.mixture_ne if t.locale == "ne" else trd.mixture_en
 
         if findings:
             findings_html = "".join(f"<li>{f}</li>" for f in findings)
@@ -1075,19 +1141,30 @@ def render_topics(result, t: T, theme: str = "light") -> str:
                       if t.locale == "ne" else "No special indicators found.")
             findings_html = f"<li class='small'>{no_msg}</li>"
 
-        whats_label = ("यो कुण्डलीमा देखिएका सङ्केतहरू"
-                       if t.locale == "ne" else "What this chart shows")
+        mixture_html = "".join(f"<li>{m}</li>" for m in mixtures)
 
         blocks.append(f"""
-        <section class='era' id='topic-{trd.key}'>
-          <h3>{trd.icon} {name}</h3>
-          <p class='small'>
-            <b>{houses_label}:</b> {', '.join(str(h) for h in trd.houses)} &nbsp;•&nbsp;
-            <b>{karaka_label}:</b> {', '.join(planet_label(k) for k in trd.karakas)}
-          </p>
-          <p>{summary}</p>
-          <h4>{whats_label}</h4>
+        <section class='era topic-card' id='topic-{trd.key}'>
+          <h3><span class='topic-code'>{trd.icon}</span>{name}</h3>
+          <div class='topic-structure'>
+            <div>
+              <h4>{method_label}</h4>
+              <p class='small'>
+                <b>{houses_label}:</b> {', '.join(str(h) for h in trd.houses)}<br>
+                <b>{karaka_label}:</b> {', '.join(planet_label(k) for k in trd.karakas)}
+              </p>
+            </div>
+            <div>
+              <h4>{age_label}</h4>
+              <p class='small'>{age_context}</p>
+            </div>
+          </div>
+          <h4>{mixture_label}</h4>
+          <ul class='mixture-list'>{mixture_html}</ul>
+          <h4>{signals_label}</h4>
           <ul>{findings_html}</ul>
+          <h4>{summary_label}</h4>
+          <p>{summary}</p>
         </section>
         """)
 
