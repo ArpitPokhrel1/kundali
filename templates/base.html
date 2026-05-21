@@ -97,6 +97,10 @@
   </div>
 </footer>
 
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <script src="{{ url_for('static', filename='js/app.js') }}?v={{ ASSET_VERSION }}"></script>
 {% block extra_scripts %}{% endblock %}
 </body>

@@ -9,3 +9,4 @@ venv/
 *.pdf
 .DS_Store
 .vercel
+node_modules/
