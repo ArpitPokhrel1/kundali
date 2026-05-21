@@ -41,6 +41,7 @@ app = Flask(
 BACKLINK_URL = "https://sandeepkafle.com.np"
 BACKLINK_TEXT = "sandeepkafle.com.np"
 SITE_DOMAIN = "kundali.tarjun.com"
+ASSET_VERSION = "glass-20260521-01"
 
 
 @app.context_processor
@@ -57,6 +58,7 @@ def inject_globals():
         "BACKLINK_URL": BACKLINK_URL,
         "BACKLINK_TEXT": BACKLINK_TEXT,
         "SITE_DOMAIN": SITE_DOMAIN,
+        "ASSET_VERSION": ASSET_VERSION,
         "locale": locale,
         "theme": theme,
         "t": t,

@@ -5,162 +5,213 @@
 {% endblock %}
 
 {% block content %}
-<section class="card intro-card" data-reveal>
-  <p class="eyebrow">{% if locale == 'ne' %}दृक् सिद्धान्त / Lahiri / सूर्य सिद्धान्त{% else %}Drik Siddhanta / Lahiri / Surya Siddhanta{% endif %}</p>
-  <h1>
-    {% if locale == 'ne' %}
-      वैदिक कुण्डली निर्माण
-    {% else %}
-      Vedic Janma Kundali Generator
-    {% endif %}
-  </h1>
-  <p class="muted">
-    {% if locale == 'ne' %}
-      जन्म मिति, समय र स्थानबाट नेपाली–अङ्ग्रेजी जन्म कुण्डली —
-      दृक् सिद्धान्त (Lahiri अयनांश) र सूर्य सिद्धान्त, पूर्ण पञ्चाङ्ग,
-      विंशोत्तरी दशा, र विस्तृत व्याख्यासहित।
-    {% else %}
-      Bilingual Vedic kundali from your date / time / place — Drik Siddhanta
-      (Lahiri ayanamsa) and Surya Siddhanta, full panchanga, Vimshottari
-      Mahadasha, and educational explanations.
-    {% endif %}
-  </p>
+<section class="hero-workspace" data-reveal>
+  <div class="hero-copy">
+    <p class="eyebrow">{% if locale == 'ne' %}दृक् सिद्धान्त / Lahiri / सूर्य सिद्धान्त{% else %}Drik Siddhanta / Lahiri / Surya Siddhanta{% endif %}</p>
+    <h1>
+      {% if locale == 'ne' %}
+        जन्म विवरणबाट स्पष्ट, पढ्न सजिलो वैदिक कुण्डली।
+      {% else %}
+        A precise Vedic Kundali, designed as a modern interpretation console.
+      {% endif %}
+    </h1>
+    <p class="lead">
+      {% if locale == 'ne' %}
+        जन्म मिति, समय र स्थान राख्नुहोस्। एपले जन्म कुण्डली, नवांश, पञ्चाङ्ग,
+        महादशा, योग, र सरल भाषाको व्याख्या एउटै सुन्दर कार्यक्षेत्रमा देखाउँछ।
+      {% else %}
+        Enter birth date, time, and place. The app renders the chart, Navamsha,
+        Panchanga, Dashas, Yogas, and plain-language interpretation inside one
+        polished workspace.
+      {% endif %}
+    </p>
+    <div class="hero-metrics" aria-label="Kundali output sections">
+      <span><b>10</b>{% if locale == 'ne' %} खण्ड{% else %} sections{% endif %}</span>
+      <span><b>D1 + D9</b>{% if locale == 'ne' %} कुण्डली{% else %} charts{% endif %}</span>
+      <span><b>AD + BS</b>{% if locale == 'ne' %} मिति{% else %} dates{% endif %}</span>
+    </div>
+  </div>
+
+  <div class="chart-orbit" aria-hidden="true">
+    <div class="orbit-ring orbit-ring-one"></div>
+    <div class="orbit-ring orbit-ring-two"></div>
+    <div class="orbit-core">
+      <span class="core-label">Lagna</span>
+      <span class="core-value">D1</span>
+    </div>
+    <div class="orbit-chip chip-one">Panchanga</div>
+    <div class="orbit-chip chip-two">Mahadasha</div>
+    <div class="orbit-chip chip-three">D9</div>
+  </div>
 </section>
 
-<section class="card" data-reveal>
-  <form id="compute-form" class="form-grid" autocomplete="off">
-    <label for="name">
-      {% if locale == 'ne' %}नाम{% else %}Name{% endif %}
-    </label>
-    <input id="name" type="text" placeholder="{% if locale=='ne' %}उदा. राम बहादुर{% else %}e.g. Ram Bahadur{% endif %}">
-
-    <span></span>
-    <label class="hint inline-check">
-      <input id="use-bs" type="checkbox">
-      <span>{% if locale == 'ne' %}वि.सं. मिति प्रविष्ट गर्ने{% else %}Enter as Bikram Sambat{% endif %}</span>
-    </label>
-
-    <label id="row-date-ad-label" for="ad-date">
-      {% if locale == 'ne' %}मिति (इस्वी){% else %}Date (AD){% endif %}
-    </label>
-    <input id="ad-date" type="date" value="1995-06-15">
-
-    <label id="row-date-bs-label" style="display:none;">
-      {% if locale == 'ne' %}मिति (वि.सं.){% else %}Date (BS){% endif %}
-    </label>
-    <div id="row-date-bs" class="bs-date-row" style="display:none;">
-      <input id="bs-year" type="number" min="2000" max="2099" value="2052" aria-label="BS year">
-      <select id="bs-month" aria-label="BS month">
-        <option value="1">1 Baisakh / बैशाख</option>
-        <option value="2">2 Jestha / जेठ</option>
-        <option value="3" selected>3 Ashadh / असार</option>
-        <option value="4">4 Shrawan / साउन</option>
-        <option value="5">5 Bhadra / भदौ</option>
-        <option value="6">6 Ashwin / असोज</option>
-        <option value="7">7 Kartik / कार्तिक</option>
-        <option value="8">8 Mangsir / मंसिर</option>
-        <option value="9">9 Poush / पुष</option>
-        <option value="10">10 Magh / माघ</option>
-        <option value="11">11 Falgun / फागुन</option>
-        <option value="12">12 Chaitra / चैत</option>
-      </select>
-      <input id="bs-day" type="number" min="1" max="32" value="1" aria-label="BS day">
-    </div>
-
-    <label for="time">
-      {% if locale == 'ne' %}जन्म समय{% else %}Time of birth{% endif %}
-    </label>
-    <input id="time" type="time" value="14:30">
-
-    <label for="place">
-      {% if locale == 'ne' %}स्थान{% else %}Place{% endif %}
-    </label>
+<section class="glass-shell calculator-shell" data-reveal>
+  <div class="shell-heading">
+    <p class="section-kicker">{% if locale == 'ne' %}Birth Inputs{% else %}Birth Inputs{% endif %}</p>
     <div>
-      <div class="place-row">
-        <input id="place" type="text" placeholder="{% if locale=='ne' %}उदा. भरतपुर चितवन{% else %}e.g. Bharatpur Chitwan{% endif %}">
-        <button id="search-place" type="button" class="btn secondary">
-          {% if locale == 'ne' %}खोज्नुहोस्{% else %}Search{% endif %}
-        </button>
-      </div>
-      <ul id="place-results" class="place-results" style="display:none;"></ul>
-    </div>
-
-    <label for="lat">
-      {% if locale == 'ne' %}अक्षांश{% else %}Latitude{% endif %}
-    </label>
-    <input id="lat" type="number" step="0.000001" min="-90" max="90" value="27.7172">
-
-    <label for="lon">
-      {% if locale == 'ne' %}देशान्तर (पूर्व){% else %}Longitude (East){% endif %}
-    </label>
-    <input id="lon" type="number" step="0.000001" min="-180" max="180" value="85.3240">
-
-    <label for="tz">
-      {% if locale == 'ne' %}समय क्षेत्र (UTC){% else %}Timezone (UTC offset){% endif %}
-    </label>
-    <input id="tz" type="number" step="0.25" min="-12" max="14" value="5.75">
-
-    <div class="full btn-row">
-      <button class="btn" type="submit">
-        <span>{% if locale == 'ne' %}कुण्डली निर्माण गर्नुहोस्{% else %}Compute Kundali{% endif %}</span>
-        <span class="btn-icon" aria-hidden="true">-&gt;</span>
-      </button>
-      <span class="hint">
+      <h2>{% if locale == 'ne' %}कुण्डली निर्माण गर्नुहोस्{% else %}Generate Your Kundali{% endif %}</h2>
+      <p class="muted">
         {% if locale == 'ne' %}
-          गणना दृक् सिद्धान्त + Lahiri अयनांश + सूर्य सिद्धान्तमा आधारित।
+          स्थान खोज्नुहोस् वा अक्षांश/देशान्तर आफैं राख्नुहोस्। सबै गणना ब्राउजरबाट API मा पठाइन्छ।
         {% else %}
-          Computation uses Drik Siddhanta + Lahiri ayanamsa + Surya Siddhanta.
+          Search a place or enter latitude and longitude manually. All interpretations return into the tabs below.
         {% endif %}
-      </span>
+      </p>
     </div>
-  </form>
+  </div>
 
-  <div id="error-box" class="error" style="display:none;"></div>
+  <div class="calculator-layout">
+    <form id="compute-form" class="form-grid" autocomplete="off">
+      <div class="field field-wide">
+        <label for="name">{% if locale == 'ne' %}नाम{% else %}Name{% endif %}</label>
+        <input id="name" type="text" placeholder="{% if locale=='ne' %}उदा. राम बहादुर{% else %}e.g. Ram Bahadur{% endif %}">
+      </div>
+
+      <label class="field toggle-field">
+        <span>{% if locale == 'ne' %}मिति प्रकार{% else %}Date Mode{% endif %}</span>
+        <span class="switch-line">
+          <input id="use-bs" type="checkbox">
+          <span>{% if locale == 'ne' %}वि.सं. मिति प्रयोग गर्ने{% else %}Enter as Bikram Sambat{% endif %}</span>
+        </span>
+      </label>
+
+      <div id="row-date-ad-field" class="field">
+        <label id="row-date-ad-label" for="ad-date">
+          {% if locale == 'ne' %}मिति (इस्वी){% else %}Date (AD){% endif %}
+        </label>
+        <input id="ad-date" type="date" value="1995-06-15">
+      </div>
+
+      <div id="row-date-bs-field" class="field field-wide" style="display:none;">
+        <label id="row-date-bs-label">
+          {% if locale == 'ne' %}मिति (वि.सं.){% else %}Date (BS){% endif %}
+        </label>
+        <div id="row-date-bs" class="bs-date-row">
+          <input id="bs-year" type="number" min="2000" max="2099" value="2052" aria-label="BS year">
+          <select id="bs-month" aria-label="BS month">
+            <option value="1">1 Baisakh / बैशाख</option>
+            <option value="2">2 Jestha / जेठ</option>
+            <option value="3" selected>3 Ashadh / असार</option>
+            <option value="4">4 Shrawan / साउन</option>
+            <option value="5">5 Bhadra / भदौ</option>
+            <option value="6">6 Ashwin / असोज</option>
+            <option value="7">7 Kartik / कार्तिक</option>
+            <option value="8">8 Mangsir / मंसिर</option>
+            <option value="9">9 Poush / पुष</option>
+            <option value="10">10 Magh / माघ</option>
+            <option value="11">11 Falgun / फाल्गुन</option>
+            <option value="12">12 Chaitra / चैत्र</option>
+          </select>
+          <input id="bs-day" type="number" min="1" max="32" value="1" aria-label="BS day">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="time">{% if locale == 'ne' %}जन्म समय{% else %}Time of birth{% endif %}</label>
+        <input id="time" type="time" value="14:30">
+      </div>
+
+      <div class="field field-wide">
+        <label for="place">{% if locale == 'ne' %}स्थान{% else %}Place{% endif %}</label>
+        <div class="place-row">
+          <input id="place" type="text" placeholder="{% if locale=='ne' %}उदा. भरतपुर चितवन{% else %}e.g. Bharatpur Chitwan{% endif %}">
+          <button id="search-place" type="button" class="btn secondary">
+            <span>{% if locale == 'ne' %}खोज्नुहोस्{% else %}Search{% endif %}</span>
+            <span class="btn-icon" aria-hidden="true">⌕</span>
+          </button>
+        </div>
+        <ul id="place-results" class="place-results" style="display:none;"></ul>
+      </div>
+
+      <div class="field">
+        <label for="lat">{% if locale == 'ne' %}अक्षांश{% else %}Latitude{% endif %}</label>
+        <input id="lat" type="number" step="0.000001" min="-90" max="90" value="27.7172">
+      </div>
+
+      <div class="field">
+        <label for="lon">{% if locale == 'ne' %}देशान्तर (पूर्व){% else %}Longitude (East){% endif %}</label>
+        <input id="lon" type="number" step="0.000001" min="-180" max="180" value="85.3240">
+      </div>
+
+      <div class="field">
+        <label for="tz">{% if locale == 'ne' %}समय क्षेत्र (UTC){% else %}Timezone (UTC offset){% endif %}</label>
+        <input id="tz" type="number" step="0.25" min="-12" max="14" value="5.75">
+      </div>
+
+      <div class="field field-wide action-field">
+        <button class="btn primary" type="submit">
+          <span>{% if locale == 'ne' %}कुण्डली निर्माण गर्नुहोस्{% else %}Compute Kundali{% endif %}</span>
+          <span class="btn-icon" aria-hidden="true">→</span>
+        </button>
+        <p class="hint">
+          {% if locale == 'ne' %}
+            गणना दृक् सिद्धान्त + Lahiri अयनांश + सूर्य सिद्धान्तमा आधारित।
+          {% else %}
+            Uses Drik Siddhanta, Lahiri ayanamsa, and Surya Siddhanta comparison.
+          {% endif %}
+        </p>
+      </div>
+
+      <div id="error-box" class="error field-wide" style="display:none;"></div>
+    </form>
+
+    <aside class="interpretation-card" aria-label="Interpretation coverage">
+      <p class="section-kicker">{% if locale == 'ne' %}Interpretation{% else %}Interpretation{% endif %}</p>
+      <h3>{% if locale == 'ne' %}गणना मात्र होइन, पढ्न मिल्ने अर्थ।{% else %}Not just calculation. Readable meaning.{% endif %}</h3>
+      <ul class="coverage-list">
+        <li><span>01</span>{% if locale == 'ne' %}सारांश, लग्न, चन्द्र, सूर्य{% else %}Summary, Lagna, Moon, Sun{% endif %}</li>
+        <li><span>02</span>{% if locale == 'ne' %}जीवन क्षेत्र अनुसार निष्कर्ष{% else %}Life-topic findings{% endif %}</li>
+        <li><span>03</span>{% if locale == 'ne' %}महादशा र अन्तरदशा{% else %}Mahadasha and Antardasha{% endif %}</li>
+        <li><span>04</span>{% if locale == 'ne' %}दृक् बनाम सूर्य सिद्धान्त{% else %}Drik vs Surya Siddhanta{% endif %}</li>
+      </ul>
+    </aside>
+  </div>
 </section>
 
-<div id="loading" class="loading" style="display:none;">
-  {% if locale == 'ne' %}गणना गर्दै{% else %}Computing{% endif %}
+<div id="loading" class="loading-card" style="display:none;">
+  <div class="loader-orbit" aria-hidden="true"></div>
+  <div>
+    <b>{% if locale == 'ne' %}कुण्डली गणना हुँदैछ{% else %}Computing Kundali{% endif %}</b>
+    <span>{% if locale == 'ne' %}चार्ट र व्याख्या तयार हुँदैछ।{% else %}Preparing charts and interpretations.{% endif %}</span>
+  </div>
 </div>
 
-<section id="result-area" style="display:none;" data-reveal>
-  <div class="result-actions">
-    <button id="btn-export-pdf" type="button" class="btn secondary">
-      <span>{% if locale == 'ne' %}PDF निकाल्नुहोस्{% else %}Export as PDF{% endif %}</span>
-      <span class="btn-icon" aria-hidden="true">PDF</span>
-    </button>
+<section id="result-area" class="results-workspace" style="display:none;" data-reveal>
+  <div class="result-header">
+    <div>
+      <p class="section-kicker">{% if locale == 'ne' %}Reading Workspace{% else %}Reading Workspace{% endif %}</p>
+      <h2 id="result-title">{% if locale == 'ne' %}कुण्डली व्याख्या{% else %}Kundali Interpretation{% endif %}</h2>
+      <p id="result-subtitle" class="muted">
+        {% if locale == 'ne' %}तलका ट्याबहरूमा सबै व्याख्या उपलब्ध छन्।{% else %}All interpretations are available across the tabs below.{% endif %}
+      </p>
+    </div>
+    <div class="result-actions">
+      <button id="btn-export-pdf" type="button" class="btn secondary">
+        <span>{% if locale == 'ne' %}PDF निकाल्नुहोस्{% else %}Export PDF{% endif %}</span>
+        <span class="btn-icon" aria-hidden="true">PDF</span>
+      </button>
+    </div>
   </div>
-  <div id="result-tabs" class="card result-card">
+
+  <div class="result-stats" aria-label="Available interpretation tabs">
+    <span><b>Summary</b> natal anchor</span>
+    <span><b>Life Topics</b> practical reading</span>
+    <span><b>Dasha</b> timing map</span>
+    <span><b>Compare</b> Drik / SS</span>
+  </div>
+
+  <div id="result-tabs" class="glass-shell result-card">
     <div class="tabs">
-      <button class="tab-btn active" data-tab="summary">
-        {% if locale == 'ne' %}सारांश{% else %}Summary{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="topics">
-        {% if locale == 'ne' %}विषयहरू{% else %}Life Topics{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="drik">
-        {% if locale == 'ne' %}दृक् + कुण्डली{% else %}Drik + Chart{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="d9">
-        {% if locale == 'ne' %}D9 नवांश{% else %}D9 Navamsha{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="yogas">
-        {% if locale == 'ne' %}योगहरू{% else %}Yogas{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="dasha">
-        {% if locale == 'ne' %}महादशा{% else %}Mahadasha{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="antardasha">
-        {% if locale == 'ne' %}अन्तरदशा{% else %}Antardasha{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="ss">
-        {% if locale == 'ne' %}सूर्य सि.{% else %}Surya Sid.{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="compare">
-        {% if locale == 'ne' %}तुलना{% else %}Drik vs SS{% endif %}
-      </button>
-      <button class="tab-btn" data-tab="explanation">
-        {% if locale == 'ne' %}व्याख्या{% else %}Explanation{% endif %}
-      </button>
+      <button class="tab-btn active" data-tab="summary">{% if locale == 'ne' %}सारांश{% else %}Summary{% endif %}</button>
+      <button class="tab-btn" data-tab="topics">{% if locale == 'ne' %}विषयहरू{% else %}Life Topics{% endif %}</button>
+      <button class="tab-btn" data-tab="drik">{% if locale == 'ne' %}दृक् + कुण्डली{% else %}Drik + Chart{% endif %}</button>
+      <button class="tab-btn" data-tab="d9">{% if locale == 'ne' %}D9 नवांश{% else %}D9 Navamsha{% endif %}</button>
+      <button class="tab-btn" data-tab="yogas">{% if locale == 'ne' %}योगहरू{% else %}Yogas{% endif %}</button>
+      <button class="tab-btn" data-tab="dasha">{% if locale == 'ne' %}महादशा{% else %}Mahadasha{% endif %}</button>
+      <button class="tab-btn" data-tab="antardasha">{% if locale == 'ne' %}अन्तरदशा{% else %}Antardasha{% endif %}</button>
+      <button class="tab-btn" data-tab="ss">{% if locale == 'ne' %}सूर्य सि.{% else %}Surya Sid.{% endif %}</button>
+      <button class="tab-btn" data-tab="compare">{% if locale == 'ne' %}तुलना{% else %}Drik vs SS{% endif %}</button>
+      <button class="tab-btn" data-tab="explanation">{% if locale == 'ne' %}व्याख्या{% else %}Explanation{% endif %}</button>
     </div>
 
     <div id="tab-summary"     class="tab-panel active"></div>
@@ -176,36 +227,33 @@
   </div>
 </section>
 
-<section class="card" data-reveal>
-  <h2>
-    {% if locale == 'ne' %}यो साइटले के–के दिन्छ?{% else %}What this site gives you{% endif %}
-  </h2>
-  <ul>
+<section class="insight-map" data-reveal>
+  <div>
+    <p class="section-kicker">{% if locale == 'ne' %}Included{% else %}Included{% endif %}</p>
+    <h2>{% if locale == 'ne' %}यो साइटले के दिन्छ?{% else %}What this site gives you{% endif %}</h2>
+  </div>
+  <div class="feature-list">
     {% if locale == 'ne' %}
-      <li>उत्तर भारतीय शैलीको <b>जन्म कुण्डली</b> (समग्र-राशि भाव पद्धति)</li>
-      <li>९ ग्रहको <b>निरयन (Lahiri) देशान्तर</b>, राशि, नक्षत्र, पाद, वक्री ध्वज</li>
-      <li>पूर्ण <b>पञ्चाङ्ग</b> — तिथि, नक्षत्र, योग, करण, वार</li>
-      <li><b>विंशोत्तरी महादशा</b>: ९ अवधि (१२० वर्ष), AD र वि.सं. दुवै मितिमा</li>
-      <li>हरेक महादशाको लागि विस्तृत <b>शिक्षा-सहितको व्याख्या</b></li>
-      <li>दृक् सिद्धान्त बनाम <b>सूर्य सिद्धान्त</b> तुलना तालिका</li>
-      <li><b>नेपाली + अङ्ग्रेजी</b> — कहिल्यै पनि स्विच गर्न सकिने</li>
+      <article><b>जन्म कुण्डली</b><span>उत्तर भारतीय शैली, समग्र-राशि भाव पद्धति।</span></article>
+      <article><b>ग्रह विवरण</b><span>निरयन देशान्तर, राशि, नक्षत्र, पाद, वक्री संकेत।</span></article>
+      <article><b>पूर्ण पञ्चाङ्ग</b><span>तिथि, नक्षत्र, योग, करण, वार।</span></article>
+      <article><b>दशा प्रणाली</b><span>महादशा र अन्तरदशा, AD र वि.सं. मितिसहित।</span></article>
+      <article><b>शिक्षामूलक व्याख्या</b><span>हर खण्डमा अर्थ र पढ्ने तरिका।</span></article>
+      <article><b>द्विभाषी</b><span>नेपाली र अङ्ग्रेजी कहिल्यै पनि स्विच गर्न सकिने।</span></article>
     {% else %}
-      <li>North-Indian style <b>Janma Kundali</b> (whole-sign houses)</li>
-      <li>Sidereal (Lahiri) <b>longitudes</b>, signs, nakshatras, padas, retrograde flags for all 9 grahas</li>
-      <li>Full <b>Panchanga</b> — Tithi, Nakshatra, Yoga, Karana, Vara</li>
-      <li><b>Vimshottari Mahadasha</b>: 9 periods (120 years) with both AD and BS dates</li>
-      <li>Detailed <b>era-by-era educational reading</b> of each Mahadasha</li>
-      <li>Drik vs <b>Surya Siddhanta</b> comparison table</li>
-      <li><b>Bilingual</b> (English + नेपाली) — switch any time</li>
+      <article><b>Janma Kundali</b><span>North-Indian chart with whole-sign houses.</span></article>
+      <article><b>Graha Details</b><span>Sidereal longitudes, signs, nakshatras, padas, retrograde flags.</span></article>
+      <article><b>Full Panchanga</b><span>Tithi, Nakshatra, Yoga, Karana, and Vara.</span></article>
+      <article><b>Dasha System</b><span>Mahadasha and Antardasha with AD and BS dates.</span></article>
+      <article><b>Educational Reading</b><span>Interpretation beside the calculation, not hidden elsewhere.</span></article>
+      <article><b>Bilingual</b><span>Switch between English and Nepali anytime.</span></article>
     {% endif %}
-  </ul>
-
+  </div>
   <p>
     <a href="{{ url_for('learn_index') }}" class="btn secondary">
       <span>{% if locale == 'ne' %}सिक्न सुरु गर्नुहोस्{% else %}Start Learning Jyotish{% endif %}</span>
-      <span class="btn-icon" aria-hidden="true">-&gt;</span>
+      <span class="btn-icon" aria-hidden="true">→</span>
     </a>
   </p>
 </section>
-
 {% endblock %}

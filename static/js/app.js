@@ -66,13 +66,17 @@
   const adLabel = $('#row-date-ad-label');
   const bsRow = $('#row-date-bs');
   const bsLabel = $('#row-date-bs-label');
+  const adField = $('#row-date-ad-field');
+  const bsField = $('#row-date-bs-field');
 
   function syncDateMode() {
     const useBs = Boolean(bsToggle && bsToggle.checked);
-    if (adInput) adInput.style.display = useBs ? 'none' : '';
-    if (adLabel) adLabel.style.display = useBs ? 'none' : '';
-    if (bsRow) bsRow.style.display = useBs ? '' : 'none';
-    if (bsLabel) bsLabel.style.display = useBs ? '' : 'none';
+    if (adField) adField.style.display = useBs ? 'none' : '';
+    if (bsField) bsField.style.display = useBs ? '' : 'none';
+    if (!adField && adInput) adInput.style.display = useBs ? 'none' : '';
+    if (!adField && adLabel) adLabel.style.display = useBs ? 'none' : '';
+    if (!bsField && bsRow) bsRow.style.display = useBs ? '' : 'none';
+    if (!bsField && bsLabel) bsLabel.style.display = useBs ? '' : 'none';
   }
 
   if (bsToggle) {
@@ -93,11 +97,11 @@
     resultsList.style.display = 'none';
   }
 
-  function setBusy(button, busy) {
+  function setBusy(button, busy, label = 'Working') {
     if (!button) return;
     button.disabled = busy;
     button.dataset.originalText = button.dataset.originalText || button.innerHTML;
-    if (busy) button.innerHTML = '<span>Searching</span><span class="btn-icon" aria-hidden="true">...</span>';
+    if (busy) button.innerHTML = `<span>${escapeHtml(label)}</span><span class="btn-icon" aria-hidden="true">...</span>`;
     if (!busy && button.dataset.originalText) button.innerHTML = button.dataset.originalText;
   }
 
@@ -107,7 +111,7 @@
 
     resultsList.innerHTML = '<li class="muted">Searching place index...</li>';
     resultsList.style.display = 'grid';
-    setBusy(searchBtn, true);
+    setBusy(searchBtn, true, 'Searching');
 
     try {
       const response = await apiFetch(`/api/search-place?q=${encodeURIComponent(query)}`);
@@ -164,6 +168,9 @@
   const errorBox = $('#error-box');
   const resultArea = $('#result-area');
   const loading = $('#loading');
+  const resultTitle = $('#result-title');
+  const resultSubtitle = $('#result-subtitle');
+  const computeButton = computeForm.querySelector('button[type="submit"]');
 
   function activateTab(tabName) {
     tabBtns.forEach(button => button.classList.toggle('active', button.dataset.tab === tabName));
@@ -179,6 +186,8 @@
     if (errorBox) errorBox.style.display = 'none';
     if (loading) loading.style.display = 'block';
     if (resultArea) resultArea.style.display = 'none';
+    document.body.classList.add('is-computing');
+    setBusy(computeButton, true, 'Computing');
 
     const useBs = Boolean($('#use-bs') && $('#use-bs').checked);
     const payload = {
@@ -205,8 +214,8 @@
       });
       const data = await response.json();
 
-      if (data.error) {
-        showError(data.error);
+      if (!response.ok || data.error) {
+        showError(data.error || `Request failed with status ${response.status}`);
         return;
       }
 
@@ -220,6 +229,7 @@
       setHtml('#tab-ss', data.ss);
       setHtml('#tab-compare', data.compare);
       setHtml('#tab-explanation', data.explanation);
+      updateResultMeta(payload);
 
       if (loading) loading.style.display = 'none';
       if (resultArea) {
@@ -230,6 +240,9 @@
       activateTab('summary');
     } catch (error) {
       showError(`Compute failed: ${error.message}`);
+    } finally {
+      document.body.classList.remove('is-computing');
+      setBusy(computeButton, false);
     }
   });
 
@@ -239,6 +252,18 @@
       errorBox.style.display = 'block';
     }
     if (loading) loading.style.display = 'none';
+  }
+
+  function updateResultMeta(payload) {
+    const name = payload.name || 'Janma Kundali';
+    const place = payload.place || 'selected place';
+    const date = payload.date_mode === 'bs'
+      ? `${payload.bs_year}-${payload.bs_month}-${payload.bs_day} BS`
+      : payload.ad_date;
+    if (resultTitle) resultTitle.textContent = `${name} - Kundali Interpretation`;
+    if (resultSubtitle) {
+      resultSubtitle.textContent = `${place} - ${date} at ${payload.time || 'birth time'} - all chart, dasha, and interpretation tabs are ready.`;
+    }
   }
 
   function setHtml(selector, html) {
@@ -302,7 +327,7 @@
     let body = `
       <h1>${escapeHtml(name)} - Janma Kundali</h1>
       <div style="text-align:center;color:#666;font-size:11px;margin-bottom:14px;">
-        Generated ${escapeHtml(date)} - astro.sandeepkafle.com.np
+        Generated ${escapeHtml(date)} - kundali.tarjun.com
       </div>
     `;
 
@@ -312,7 +337,7 @@
       body += `<section class="page"><h2>${escapeHtml(sectionTitle)}</h2>${element.innerHTML}</section>`;
     });
 
-    body += '<div class="footer">Astro-Nepali - sandeepkafle.com.np</div>';
+    body += '<div class="footer">Astro-Nepali - kundali.tarjun.com</div>';
 
     const doc = `<!doctype html><html lang="${document.documentElement.lang || 'en'}"><head><meta charset="utf-8"><title>Kundali - ${escapeHtml(name)}</title><style>${printCss}</style></head><body>${body}</body></html>`;
     const printWindow = window.open('', '_blank');

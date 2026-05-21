@@ -172,12 +172,12 @@ def chart_html(lagna_rashi: int, planets_in_house: dict[int, list[str]],
     svg = make_svg(lagna_rashi, planets_in_house)
 
     if mode == "svg":
-        return f'<div style="text-align:center;margin:14px 0;">{svg}</div>'
+        return f'<div class="kundali-chart-shell" style="text-align:center;margin:14px auto;">{svg}</div>'
 
     if mode == "png":
         uri = svg_to_png_data_uri(svg)
         return (
-            f'<div style="text-align:center;margin:14px 0;">'
+            f'<div class="kundali-chart-shell" style="text-align:center;margin:14px auto;">'
             f'<img src="{uri}" width="{SIZE}" height="{SIZE}" '
             f'alt="Janma Kundali chart"/></div>'
         )
@@ -188,10 +188,10 @@ def chart_html(lagna_rashi: int, planets_in_house: dict[int, list[str]],
         if QGuiApplication.instance() is not None:
             uri = svg_to_png_data_uri(svg)
             return (
-                f'<div style="text-align:center;margin:14px 0;">'
+                f'<div class="kundali-chart-shell" style="text-align:center;margin:14px auto;">'
                 f'<img src="{uri}" width="{SIZE}" height="{SIZE}" '
                 f'alt="Janma Kundali chart"/></div>'
             )
     except Exception:
         pass
-    return f'<div style="text-align:center;margin:14px 0;">{svg}</div>'
+    return f'<div class="kundali-chart-shell" style="text-align:center;margin:14px auto;">{svg}</div>'

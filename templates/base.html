@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}?v={{ ASSET_VERSION }}">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -16,7 +16,13 @@
 <header class="top-bar">
   <div class="top-bar-inner">
     <a href="{{ url_for('home') }}" class="brand">
-      <span class="brand-mark">🪐</span>
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img" focusable="false">
+          <circle cx="16" cy="16" r="5.5"></circle>
+          <path d="M5.5 18.5c4.9 5.1 15.7 6.2 21 1.6 1.2-1.1 1-2.2-.7-2.5-3.3-.6-9.8.8-15.2 3.3"></path>
+          <path d="M26.4 13.5C21.5 8.4 10.7 7.3 5.5 11.9c-1.3 1.1-1 2.2.6 2.5 3.3.6 9.8-.8 15.2-3.3"></path>
+        </svg>
+      </span>
       <span class="brand-text">Astro-Nepali</span>
     </a>
 
@@ -84,7 +90,7 @@
   </div>
 </footer>
 
-<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}?v={{ ASSET_VERSION }}"></script>
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>
