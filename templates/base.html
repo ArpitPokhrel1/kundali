@@ -4,7 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Kundali Tarjun — Vedic Kundali / वैदिक कुण्डली{% endblock %}</title>
-  <meta name="description" content="Free Vedic Janma Kundali generator with Drik &amp; Surya Siddhanta calculations, Nepali / English bilingual, panchanga, dasha, and educational explanations.">
+  <meta name="description" content="{% block meta_description %}{{ meta_description|default('Free Vedic Kundali generator with Janma Kundali chart, D9 Navamsha, Panchanga, Mahadasha, Nepali date support, and bilingual explanations.') }}{% endblock %}">
+  <link rel="canonical" href="{% block canonical_url %}{{ canonical_url }}{% endblock %}">
+  <meta name="robots" content="{% block robots %}index,follow,max-image-preview:large{% endblock %}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kundali Tarjun">
+  <meta property="og:title" content="{% block og_title %}Kundali Tarjun — Free Online Vedic Kundali Generator{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Generate a free Vedic Janma Kundali with D1, D9, Panchanga, Dasha, Yogas, Nepali dates, and structured interpretations.{% endblock %}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{% block twitter_title %}Kundali Tarjun — Free Online Vedic Kundali Generator{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Free Kundali calculator with Janma Kundali, D9, Panchanga, Dasha, Yogas, Nepali dates, and bilingual interpretation.{% endblock %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Mukta:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet">

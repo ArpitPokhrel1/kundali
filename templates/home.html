@@ -1,7 +1,90 @@
 {% extends "base.html" %}
 
-{% block title %}
-  {% if locale == 'ne' %}जन्म कुण्डली निर्माण — Kundali Tarjun{% else %}Janma Kundali — Kundali Tarjun{% endif %}
+{% block title %}{% if locale == 'ne' %}निःशुल्क कुण्डली जनरेटर | जन्म कुण्डली र दशा — Kundali Tarjun{% else %}Free Kundali Generator Online | Janma Kundali & Dasha — Kundali Tarjun{% endif %}{% endblock %}
+{% block meta_description %}{% if locale == 'ne' %}निःशुल्क वैदिक कुण्डली बनाउनुहोस्। जन्म कुण्डली, D9 नवांश, पञ्चाङ्ग, महादशा, योग, वि.सं. मिति र नेपाली/English व्याख्या।{% else %}Generate a free online Kundali with Janma Kundali chart, D9 Navamsha, Panchanga, Vimshottari Dasha, Yogas, Nepali dates, and bilingual interpretation.{% endif %}{% endblock %}
+{% block og_title %}Free Online Kundali Generator — Kundali Tarjun{% endblock %}
+{% block og_description %}Create a free Vedic Janma Kundali with D1 chart, D9 Navamsha, Panchanga, Dasha periods, Yogas, Nepali dates, and structured readings.{% endblock %}
+{% block twitter_title %}Free Online Kundali Generator — Kundali Tarjun{% endblock %}
+{% block twitter_description %}Free Vedic Kundali calculator with D1, D9, Panchanga, Dasha, Yogas, Nepali dates, and bilingual interpretation.{% endblock %}
+
+{% block extra_head %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ SITE_URL }}/#website",
+      "name": "Kundali Tarjun",
+      "url": "{{ SITE_URL }}/",
+      "inLanguage": ["en", "ne"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "{{ SITE_URL }}/#kundali-calculator",
+      "name": "Kundali Tarjun",
+      "alternateName": ["Free Kundali Generator", "Janma Kundali Calculator", "Nepali Kundali Calculator", "Vedic Birth Chart Calculator"],
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web",
+      "url": "{{ SITE_URL }}/",
+      "description": "Free online Vedic Kundali calculator for Janma Kundali, D9 Navamsha, Panchanga, Vimshottari Dasha, Yogas, Nepali dates, and structured interpretations.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Janma Kundali chart",
+        "D9 Navamsha chart",
+        "Panchanga",
+        "Vimshottari Mahadasha",
+        "Antardasha",
+        "Yogas",
+        "Nepali Bikram Sambat date support",
+        "English and Nepali interpretation"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "{{ SITE_URL }}/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a Janma Kundali?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Janma Kundali is a Vedic birth chart that maps the planetary positions at the exact date, time, and place of birth. It is used to study Lagna, rashis, houses, nakshatras, dashas, yogas, and life themes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Kundali Tarjun free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Kundali Tarjun is a free online Kundali generator with Janma Kundali, D9 Navamsha, Panchanga, Dasha, Yogas, and bilingual explanations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this Kundali calculator support Nepali dates?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can enter an AD date or use Bikram Sambat date input. Results include both AD and BS date references where relevant."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which astrology calculations are used?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The calculator uses Drik Siddhanta with Lahiri ayanamsha and includes Surya Siddhanta comparison for educational reference."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -10,9 +93,9 @@
     <p class="eyebrow">{% if locale == 'ne' %}दृक् सिद्धान्त / Lahiri / सूर्य सिद्धान्त{% else %}Drik Siddhanta / Lahiri / Surya Siddhanta{% endif %}</p>
     <h1>
       {% if locale == 'ne' %}
-        जन्म विवरणबाट स्पष्ट, पढ्न सजिलो वैदिक कुण्डली।
+        निःशुल्क वैदिक जन्म कुण्डली जनरेटर।
       {% else %}
-        A precise Vedic Kundali, designed as a modern interpretation console.
+        Free online Kundali generator for Janma Kundali, Dasha, and Vedic birth chart readings.
       {% endif %}
     </h1>
     <p class="lead">
@@ -20,9 +103,9 @@
         जन्म मिति, समय र स्थान राख्नुहोस्। एपले जन्म कुण्डली, नवांश, पञ्चाङ्ग,
         महादशा, योग, र सरल भाषाको व्याख्या एउटै सुन्दर कार्यक्षेत्रमा देखाउँछ।
       {% else %}
-        Enter birth date, time, and place. The app renders the chart, Navamsha,
-        Panchanga, Dashas, Yogas, and plain-language interpretation inside one
-        polished workspace.
+        Enter birth date, time, and place to generate a Vedic Janma Kundali with
+        D1 chart, D9 Navamsha, Panchanga, Vimshottari Dasha, Yogas, Nepali dates,
+        and plain-language interpretation.
       {% endif %}
     </p>
     <div class="hero-metrics" aria-label="Kundali output sections">
@@ -42,6 +125,22 @@
     <div class="orbit-chip chip-one">Panchanga</div>
     <div class="orbit-chip chip-two">Mahadasha</div>
     <div class="orbit-chip chip-three">D9</div>
+  </div>
+</section>
+
+<section class="seo-content" data-reveal>
+  <div>
+    <p class="section-kicker">{% if locale == 'ne' %}Kundali Guide{% else %}Kundali Guide{% endif %}</p>
+    <h2>{% if locale == 'ne' %}जन्म कुण्डली के हो?{% else %}What is a Janma Kundali?{% endif %}</h2>
+  </div>
+  <div class="seo-copy">
+    {% if locale == 'ne' %}
+      <p>जन्म कुण्डली, जन्मपत्री, वा वैदिक जन्म चार्ट भनेको तपाईं जन्मेको क्षणमा ग्रहहरू, राशि, नक्षत्र, र भावहरूको स्थिति देखाउने खाका हो। यसले लग्न, चन्द्र राशि, सूर्य राशि, ग्रह स्थिति, पञ्चाङ्ग, दशा, र योगहरूलाई एउटै अध्ययनमा जोड्छ।</p>
+      <p>Kundali Tarjun ले मिति, समय, स्थान, अक्षांश, देशान्तर, र समय क्षेत्रका आधारमा निःशुल्क कुण्डली तयार गर्छ। यो पठन शिक्षामूलक हो: कुण्डली जीवनको नक्शा हो, अन्तिम निर्णय होइन।</p>
+    {% else %}
+      <p>A Janma Kundali, also called a Kundali, Kundli, Janam Patrika, or Vedic birth chart, maps the grahas, rashis, nakshatras, and houses at the moment of birth. It is used to study Lagna, Moon sign, Sun sign, Panchanga, Dashas, Yogas, and practical life themes.</p>
+      <p>Kundali Tarjun generates a free online Kundali from your date, time, place, latitude, longitude, and timezone. The reading is educational and structured: a Kundali is a map of tendencies and timing, not a fixed verdict.</p>
+    {% endif %}
   </div>
 </section>
 
@@ -255,5 +354,30 @@
       <span class="btn-icon" aria-hidden="true">→</span>
     </a>
   </p>
+</section>
+
+<section class="seo-content faq-section" id="faq" data-reveal>
+  <div>
+    <p class="section-kicker">{% if locale == 'ne' %}FAQ{% else %}FAQ{% endif %}</p>
+    <h2>{% if locale == 'ne' %}कुण्डली जनरेटरबारे सामान्य प्रश्न{% else %}Free Kundali Generator FAQ{% endif %}</h2>
+  </div>
+  <div class="faq-list">
+    <article>
+      <h3>{% if locale == 'ne' %}जन्म कुण्डली बनाउन के चाहिन्छ?{% else %}What do I need to create a Janma Kundali?{% endif %}</h3>
+      <p>{% if locale == 'ne' %}जन्म मिति, जन्म समय, जन्म स्थान, र समय क्षेत्र चाहिन्छ। स्थान खोजबाट अक्षांश र देशान्तर पनि मिलाउन सकिन्छ।{% else %}You need birth date, birth time, birth place, and timezone. The place search can help fill latitude and longitude for more accurate chart calculation.{% endif %}</p>
+    </article>
+    <article>
+      <h3>{% if locale == 'ne' %}यो कुण्डली निःशुल्क हो?{% else %}Is this Kundali calculator free?{% endif %}</h3>
+      <p>{% if locale == 'ne' %}हो। जन्म कुण्डली, D9 नवांश, पञ्चाङ्ग, दशा, योग, र व्याख्या निःशुल्क हेर्न सकिन्छ।{% else %}Yes. The Janma Kundali chart, D9 Navamsha, Panchanga, Dasha, Yogas, and interpretation sections are available for free.{% endif %}</p>
+    </article>
+    <article>
+      <h3>{% if locale == 'ne' %}वि.सं. मिति प्रयोग गर्न मिल्छ?{% else %}Can I enter a Nepali Bikram Sambat date?{% endif %}</h3>
+      <p>{% if locale == 'ne' %}मिल्छ। वि.सं. मिति प्रविष्ट गर्न सकिन्छ, र परिणाममा AD र BS दुवै सन्दर्भ दिइन्छ।{% else %}Yes. You can use Bikram Sambat input, and the results include both AD and BS references where useful.{% endif %}</p>
+    </article>
+    <article>
+      <h3>{% if locale == 'ne' %}कुन गणना पद्धति प्रयोग हुन्छ?{% else %}Which calculation system does it use?{% endif %}</h3>
+      <p>{% if locale == 'ne' %}गणना दृक् सिद्धान्त, Lahiri अयनांश, र सूर्य सिद्धान्त तुलनामा आधारित छ।{% else %}The calculator uses Drik Siddhanta with Lahiri ayanamsha and includes Surya Siddhanta comparison for learning.{% endif %}</p>
+    </article>
+  </div>
 </section>
 {% endblock %}

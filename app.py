@@ -8,9 +8,10 @@ import os
 import sys
 from datetime import datetime
 from io import BytesIO
+from xml.sax.saxutils import escape as xml_escape
 
 from flask import (
-    Flask, render_template, request, jsonify, send_file, abort,
+    Flask, render_template, request, jsonify, send_file, abort, Response,
 )
 
 # astro_nepali lives next to this file (web/ is the project root)
@@ -41,7 +42,8 @@ app = Flask(
 BACKLINK_URL = "https://kundali.tarjun.com"
 BACKLINK_TEXT = "Kundali Tarjun"
 SITE_DOMAIN = "kundali.tarjun.com"
-ASSET_VERSION = "hindu-minimal-20260521-01"
+SITE_URL = f"https://{SITE_DOMAIN}"
+ASSET_VERSION = "seo-20260521-01"
 
 
 @app.context_processor
@@ -58,7 +60,9 @@ def inject_globals():
         "BACKLINK_URL": BACKLINK_URL,
         "BACKLINK_TEXT": BACKLINK_TEXT,
         "SITE_DOMAIN": SITE_DOMAIN,
+        "SITE_URL": SITE_URL,
         "ASSET_VERSION": ASSET_VERSION,
+        "canonical_url": f"{SITE_URL}{request.path}" if request else SITE_URL,
         "locale": locale,
         "theme": theme,
         "t": t,
@@ -73,9 +77,53 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/robots.txt")
+def robots_txt():
+    body = "\n".join([
+        "User-agent: *",
+        "Allow: /",
+        "Disallow: /api/",
+        f"Sitemap: {SITE_URL}/sitemap.xml",
+        "",
+    ])
+    return Response(body, mimetype="text/plain")
+
+
+@app.route("/sitemap.xml")
+def sitemap_xml():
+    urls = [
+        ("/", "daily", "1.0"),
+        ("/learn/", "weekly", "0.8"),
+        ("/about/", "monthly", "0.5"),
+        *[(f"/learn/{topic}", "monthly", "0.7") for topic in LEARN_TOPICS],
+    ]
+    lastmod = datetime.utcnow().date().isoformat()
+    rows = []
+    for path, changefreq, priority in urls:
+        loc = f"{SITE_URL}{path}"
+        rows.append(
+            "  <url>\n"
+            f"    <loc>{xml_escape(loc)}</loc>\n"
+            f"    <lastmod>{lastmod}</lastmod>\n"
+            f"    <changefreq>{changefreq}</changefreq>\n"
+            f"    <priority>{priority}</priority>\n"
+            "  </url>"
+        )
+    xml = (
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+        + "\n".join(rows)
+        + "\n</urlset>\n"
+    )
+    return Response(xml, mimetype="application/xml")
+
+
 @app.route("/learn/")
 def learn_index():
-    return render_template("learn/index.html")
+    return render_template(
+        "learn/index.html",
+        meta_description="Learn Vedic Kundali reading with guides to rashis, nakshatras, planets, houses, Panchanga, dashas, yogas, aspects, and chart concepts.",
+    )
 
 
 LEARN_TOPICS = {
@@ -89,6 +137,19 @@ LEARN_TOPICS = {
     "aspects":    "aspects.html",
     "concepts":   "concepts.html",
     "how-to-read": "how_to_read.html",
+}
+
+LEARN_META = {
+    "rashis": "Learn the 12 Vedic rashis, their Sanskrit and Nepali names, traits, and how signs shape Kundali interpretation.",
+    "nakshatras": "Learn the 27 nakshatras used in Vedic Kundali readings, including pada, themes, and nakshatra lords.",
+    "planets": "Learn the 9 grahas in Vedic astrology and how each planet influences houses, rashis, dashas, and Kundali interpretation.",
+    "houses": "Learn the 12 bhavas or houses in a Janma Kundali and what they mean for body, wealth, home, career, marriage, and moksha.",
+    "panchanga": "Learn Panchanga in Vedic astrology: tithi, nakshatra, yoga, karana, and vara for Kundali and muhurta reading.",
+    "dashas": "Learn Vimshottari Mahadasha and Antardasha timing in a Vedic Kundali with planet periods and life-stage interpretation.",
+    "yogas": "Learn major Vedic astrology yogas such as Raja Yoga, Dhana Yoga, Chandra-Mangala Yoga, and how they are read in a Kundali.",
+    "aspects": "Learn Vedic drishti or planetary aspects and how planets influence other houses in a Kundali.",
+    "concepts": "Learn key Vedic astrology concepts for Kundali reading, including exaltation, debilitation, ayanamsha, and divisional charts.",
+    "how-to-read": "Learn how to read a Kundali step by step using Lagna, Moon sign, houses, planets, dignity, dashas, and yogas.",
 }
 
 
@@ -111,13 +172,17 @@ def learn_topic(topic):
         "mahadasha_ne": MAHADASHA_NOTES_NE,
         "psy_en": PLANET_PSYCHOLOGY_EN,
         "psy_ne": PLANET_PSYCHOLOGY_NE,
+        "meta_description": LEARN_META.get(topic, "Learn Vedic Kundali reading with structured Jyotish guides."),
     }
     return render_template(f"learn/{template}", **ctx)
 
 
 @app.route("/about/")
 def about():
-    return render_template("about.html")
+    return render_template(
+        "about.html",
+        meta_description="About Kundali Tarjun, a free bilingual Vedic Kundali calculator for Janma Kundali, D9, Panchanga, Dasha, Yogas, and education.",
+    )
 
 
 # ---------- API ----------

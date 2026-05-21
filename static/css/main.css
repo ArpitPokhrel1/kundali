@@ -1297,6 +1297,50 @@ dl.glossary dd {
   backdrop-filter: blur(18px);
 }
 
+.seo-content {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+  gap: 28px;
+  margin: 28px 0;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--shadow-soft), inset 0 1px 0 var(--glass-edge);
+  backdrop-filter: blur(16px);
+}
+
+.seo-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.seo-copy p,
+.faq-list p {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.faq-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.faq-list article {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--surface-strong) 62%, transparent);
+  box-shadow: inset 0 1px 0 var(--glass-edge);
+}
+
+.faq-list h3 {
+  margin-bottom: 8px;
+  font-size: 17px;
+}
+
 .feature-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1407,7 +1451,8 @@ dl.glossary dd {
 
   .hero-workspace,
   .calculator-layout,
-  .insight-map {
+  .insight-map,
+  .seo-content {
     grid-template-columns: 1fr;
   }
 
@@ -1512,7 +1557,8 @@ dl.glossary dd {
   }
 
   .form-grid,
-  .feature-list {
+  .feature-list,
+  .faq-list {
     grid-template-columns: 1fr;
   }
 
